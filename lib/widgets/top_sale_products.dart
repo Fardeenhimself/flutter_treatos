@@ -76,6 +76,15 @@ class TopSaleProducts extends ConsumerWidget {
                                 ref
                                     .read(wishlistProvider.notifier)
                                     .addToWishlist(product);
+                                ScaffoldMessenger.of(context).clearSnackBars();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      '${product.productName} added to wish list!',
+                                    ),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
                               },
                               icon: Icon(Icons.favorite_outline),
                               iconSize: 20,
@@ -87,6 +96,7 @@ class TopSaleProducts extends ConsumerWidget {
                                 ref
                                     .read(cartProvider.notifier)
                                     .addToCart(product);
+                                ScaffoldMessenger.of(context).clearSnackBars();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(

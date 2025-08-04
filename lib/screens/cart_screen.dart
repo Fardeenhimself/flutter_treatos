@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:treatos_bd/models/cart_item.dart';
 import 'package:treatos_bd/providers/cart_provider.dart';
 
 class CartScreen extends ConsumerWidget {
