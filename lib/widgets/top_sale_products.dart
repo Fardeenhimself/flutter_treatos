@@ -48,7 +48,7 @@ class TopSaleProducts extends ConsumerWidget {
                     child: Column(
                       children: [
                         Text(
-                          product.productName,
+                          product.productName.toUpperCase(),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -60,9 +60,32 @@ class TopSaleProducts extends ConsumerWidget {
                         ),
                         if (product.totalSold != null)
                           Text(
-                            'Sold: ${product.totalSold}',
-                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                            'Sold: ${product.totalSold} items',
+                            style: TextStyle(fontSize: 11, color: Colors.grey),
                           ),
+
+                        // Icon guttons
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              tooltip: 'Add to wishlist',
+                              onPressed: () {
+                                // Add to wishlist
+                              },
+                              icon: Icon(Icons.favorite_outline),
+                              iconSize: 20,
+                            ),
+                            IconButton(
+                              tooltip: 'Add to cart',
+                              onPressed: () {
+                                // Add to cart
+                              },
+                              icon: Icon(Icons.shopping_cart_outlined),
+                              iconSize: 20,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
