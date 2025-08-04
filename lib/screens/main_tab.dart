@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:treatos_bd/providers/cart_provider.dart';
 import 'package:treatos_bd/screens/cart_screen.dart';
 import 'package:treatos_bd/screens/home_screen.dart';
 import 'package:treatos_bd/screens/search_screen.dart';
 import 'package:treatos_bd/screens/wishlist_screen.dart';
 import 'package:treatos_bd/widgets/main_drawer.dart';
 
-class MainTab extends StatefulWidget {
+class MainTab extends ConsumerStatefulWidget {
   const MainTab({super.key});
 
   @override
-  State<MainTab> createState() => _MainTabState();
+  ConsumerState<MainTab> createState() => _MainTabState();
 }
 
-class _MainTabState extends State<MainTab> {
+class _MainTabState extends ConsumerState<MainTab> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
@@ -24,6 +26,12 @@ class _MainTabState extends State<MainTab> {
 
   @override
   Widget build(BuildContext context) {
+    final cartItems = ref.watch(cartProvider);
+    final cartCount = cartItems.fold<int>(
+      0,
+      (sum, item) => sum + item.quantity,
+    );
+
     return Scaffold(
       appBar: AppBar(title: Image.asset('assets/logo.png')),
       drawer: MainDrawer(),
@@ -46,7 +54,37 @@ class _MainTabState extends State<MainTab> {
             label: 'Wish List',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
+            icon: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                const Icon(Icons.shopping_cart),
+                if (cartCount > 0)
+                  Positioned(
+                    top: -4,
+                    right: -6,
+                    child: Container(
+                      padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: Colors.purple,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 16,
+                        minHeight: 16,
+                      ),
+                      child: Text(
+                        '$cartCount',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
             label: 'Cart',
           ),
         ],
