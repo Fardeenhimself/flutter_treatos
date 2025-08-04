@@ -24,7 +24,7 @@ class CartScreen extends ConsumerWidget {
                     width: 40,
                     height: 40,
                   ),
-                  title: Text(item.productName),
+                  title: Text(item.productName.toUpperCase()),
                   subtitle: Text('৳${item.salePrice} x ${item.quantity}'),
                   trailing: IconButton(
                     icon: Icon(Icons.delete),
@@ -38,15 +38,28 @@ class CartScreen extends ConsumerWidget {
       bottomNavigationBar: cartItems.isEmpty
           ? null
           : Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: ElevatedButton(
+              padding: const EdgeInsets.all(30.0),
+              child: FloatingActionButton(
                 onPressed: () {
                   ref.read(cartProvider.notifier).clearCart();
                   ScaffoldMessenger.of(
                     context,
                   ).showSnackBar(SnackBar(content: Text('Checkout complete!')));
                 },
-                child: Text('Checkout'),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Check Out',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Icon(Icons.shopping_cart_checkout, size: 25),
+                  ],
+                ),
               ),
             ),
     );
