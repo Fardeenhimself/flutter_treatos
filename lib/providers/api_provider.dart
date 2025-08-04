@@ -9,7 +9,7 @@ final categoryProvider = FutureProvider<List<Category>>((ref) async {
 });
 
 // For random products
-final allProductsProvider = FutureProvider<List<Product>>((ref) async {
+final randomProductsProvider = FutureProvider<List<Product>>((ref) async {
   return ApiService.fetchRandomProducts();
 });
 

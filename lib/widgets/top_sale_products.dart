@@ -76,6 +76,7 @@ class TopSaleProducts extends ConsumerWidget {
                               icon: Icon(Icons.favorite_outline),
                               iconSize: 20,
                             ),
+                            const SizedBox(width: 10),
                             IconButton(
                               tooltip: 'Add to cart',
                               onPressed: () {
