@@ -69,7 +69,7 @@ class _MainDrawerState extends State<MainDrawer> {
     return Drawer(
       child: Column(
         children: [
-          // Drawer header
+          // --------------------------------------------- Drawer header---------------------------------
           DrawerHeader(
             decoration: BoxDecoration(color: Colors.purple.shade100),
             child: Column(
@@ -98,24 +98,11 @@ class _MainDrawerState extends State<MainDrawer> {
             ),
           ),
 
-          // Search Bar
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search in...',
-                prefixIcon: Icon(Icons.search),
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 10),
-
-          // Menu and category section
+          // ----------------------------------- Menu and category section ------------------------
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Container(
-              height: 40,
+              height: 45,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 color: Colors.grey[200],
