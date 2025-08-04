@@ -19,7 +19,7 @@ class ApiService {
     }
   }
 
-  // List of products
+  // List of Random products
   static Future<List<Product>> fetchRandomProducts() async {
     final res = await http.get(
       Uri.parse('https://pos.theabacuses.com/api/random-products'),

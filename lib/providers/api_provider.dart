@@ -8,7 +8,7 @@ final categoryProvider = FutureProvider<List<Category>>((ref) async {
   return ApiService.fetchCategories();
 });
 
-// For all products
+// For random products
 final allProductsProvider = FutureProvider<List<Product>>((ref) async {
   return ApiService.fetchRandomProducts();
 });

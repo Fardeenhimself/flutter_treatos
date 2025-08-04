@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:treatos_bd/providers/api_provider.dart';
+import 'package:treatos_bd/models/category.dart';
 
-class MainDrawer extends StatefulWidget {
+class MainDrawer extends ConsumerStatefulWidget {
   const MainDrawer({super.key});
 
   @override
-  State<MainDrawer> createState() => _MainDrawerState();
+  ConsumerState<MainDrawer> createState() => _MainDrawerState();
 }
 
-class _MainDrawerState extends State<MainDrawer> {
+class _MainDrawerState extends ConsumerState<MainDrawer> {
   bool isMenuSelected = true;
 
   // Menu Options
@@ -21,17 +24,30 @@ class _MainDrawerState extends State<MainDrawer> {
   }
 
   // Categories Options
-  List<Widget> _buildCategoryOptions() {
-    return [
-      _buildDrawerItem(Icons.fastfood, "Cat Food", () {}),
-      _buildDrawerItem(Icons.pets, "Accessories", () {}),
-      _buildDrawerItem(Icons.local_hospital, "Healthcare", () {}),
-    ];
+  List<Widget> _buildCategoryOptions(List<Category> categories) {
+    return categories.map((cat) {
+      return Container(
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: Colors.black12, width: 1)),
+        ),
+        child: ListTile(
+          title: Text(cat.categoryName),
+          onTap: () {
+            // Navigate to cateogory
+          },
+        ),
+      );
+    }).toList();
   }
 
   // Drawer List Item
   Widget _buildDrawerItem(IconData icon, String title, VoidCallback onTap) {
-    return ListTile(leading: Icon(icon), title: Text(title), onTap: onTap);
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: Colors.black12, width: 1)),
+      ),
+      child: ListTile(leading: Icon(icon), title: Text(title), onTap: onTap),
+    );
   }
 
   // Toggle Button Builder
@@ -66,6 +82,8 @@ class _MainDrawerState extends State<MainDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    final categoriesAsync = ref.watch(categoryProvider);
+
     return Drawer(
       child: Column(
         children: [
@@ -125,11 +143,22 @@ class _MainDrawerState extends State<MainDrawer> {
           ),
           // Drawer content according to menu and categories
           Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              children: isMenuSelected
-                  ? _buildMenuOptions()
-                  : _buildCategoryOptions(),
+            child: categoriesAsync.when(
+              data: (categories) {
+                final items = isMenuSelected
+                    ? _buildMenuOptions()
+                    : _buildCategoryOptions(categories);
+
+                return ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    return items[index];
+                  },
+                );
+              },
+              error: (err, stack) => Center(child: Text('Error: $err')),
+              loading: () => const Center(child: CircularProgressIndicator()),
             ),
           ),
         ],
