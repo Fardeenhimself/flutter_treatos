@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treatos_bd/providers/api_provider.dart';
+import 'package:treatos_bd/providers/cart_provider.dart';
 
 class RandomProducts extends ConsumerWidget {
   const RandomProducts({super.key});
@@ -48,7 +49,7 @@ class RandomProducts extends ConsumerWidget {
                                   width: double.infinity,
                                   errorBuilder: (context, error, stackTrace) {
                                     return Image.asset(
-                                      'assets/fallback.png', // Replace with your fallback image
+                                      'assets/fallback.png',
                                       fit: BoxFit.cover,
                                       width: double.infinity,
                                     );
@@ -124,9 +125,19 @@ class RandomProducts extends ConsumerWidget {
                             IconButton(
                               tooltip: 'Add to cart',
                               onPressed: () {
-                                // Add to cart
+                                ref
+                                    .read(cartProvider.notifier)
+                                    .addToCart(product);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      '${product.productName} added to cart!',
+                                    ),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
                               },
-                              icon: const Icon(Icons.shopping_cart_outlined),
+                              icon: Icon(Icons.shopping_cart_outlined),
                               iconSize: 20,
                             ),
                           ],

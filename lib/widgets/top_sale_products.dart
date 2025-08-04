@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:treatos_bd/models/cart_item.dart';
 import 'package:treatos_bd/providers/api_provider.dart';
+import 'package:treatos_bd/providers/cart_provider.dart';
 
 class TopSaleProducts extends ConsumerWidget {
   const TopSaleProducts({super.key});
@@ -54,17 +56,14 @@ class TopSaleProducts extends ConsumerWidget {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 4),
-                        Text(
-                          '৳${product.salePrice}',
-                          style: TextStyle(color: Colors.red),
-                        ),
+                        Text('৳${product.salePrice}'),
                         if (product.totalSold != null)
                           Text(
                             'Sold: ${product.totalSold} items',
                             style: TextStyle(fontSize: 11, color: Colors.grey),
                           ),
 
-                        // Icon guttons
+                        // Icon buttons
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -80,7 +79,17 @@ class TopSaleProducts extends ConsumerWidget {
                             IconButton(
                               tooltip: 'Add to cart',
                               onPressed: () {
-                                // Add to cart
+                                ref
+                                    .read(cartProvider.notifier)
+                                    .addToCart(product);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      '${product.productName} added to cart!',
+                                    ),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
                               },
                               icon: Icon(Icons.shopping_cart_outlined),
                               iconSize: 20,

@@ -63,6 +63,35 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             RandomProducts(),
+
+            // ----  View All Products ---
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    // Navigate to all products
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'View All Products',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Icon(Icons.arrow_right_alt, size: 25),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
