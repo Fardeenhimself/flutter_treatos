@@ -3,6 +3,7 @@ import 'package:treatos_bd/widgets/bottom_nav_bar.dart';
 import 'package:treatos_bd/widgets/carousel_bar.dart';
 import 'package:treatos_bd/widgets/category_list.dart';
 import 'package:treatos_bd/widgets/main_drawer.dart';
+import 'package:treatos_bd/widgets/top_sale_products.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -16,25 +17,39 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // --------------------------------------------- Carousel Bar --------------------------------- \\
+            // ---------------------------------------------|| Body Content ||--------------------------------- \\
+
+            // ----  CAROUSEL ---
             CarouselBar(),
             const SizedBox(height: 20),
 
-            // --------------------------------------------- Body Content --------------------------------- \\
+            // ----  CATEGORIES  ---
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 12),
               child: Text(
                 'Categories',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 10),
             CategoryList(),
+            const SizedBox(height: 20),
+
+            // ----  POPULAR PRODUCTS  ---
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12),
+              child: Text(
+                'Top Selling Products',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(height: 10),
+            TopSaleProducts(),
           ],
         ),
       ),
 
-      // --------------------------------------------- Bottom Bar --------------------------------- \\
+      // ---------------------------------------------|| Bottom Bar ||--------------------------------- \\
       bottomNavigationBar: BottomNavBar(),
     );
   }
