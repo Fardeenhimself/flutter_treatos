@@ -15,7 +15,7 @@ class Category {
     return Category(
       id: json['id'] as String,
       categoryName: json['category_name'] as String,
-      imageUrl: json['img_url'] as String,
+      imageUrl: 'https://pos.theabacuses.com${json['img_url']}',
     );
   }
 }

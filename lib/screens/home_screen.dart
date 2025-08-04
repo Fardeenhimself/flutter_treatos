@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:treatos_bd/widgets/bottom_nav_bar.dart';
 import 'package:treatos_bd/widgets/carousel_bar.dart';
+import 'package:treatos_bd/widgets/category_list.dart';
 import 'package:treatos_bd/widgets/main_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -20,13 +21,15 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 20),
 
             // --------------------------------------------- Body Content --------------------------------- \\
-            Center(
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12),
               child: Text(
-                'Welcome to treatos_bd',
-                style: TextStyle(fontSize: 18),
+                'Categories',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
+            CategoryList(),
           ],
         ),
       ),
