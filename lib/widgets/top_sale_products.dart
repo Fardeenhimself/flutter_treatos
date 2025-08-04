@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:treatos_bd/models/cart_item.dart';
 import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/providers/cart_provider.dart';
+import 'package:treatos_bd/providers/wishlist_provider.dart';
 
 class TopSaleProducts extends ConsumerWidget {
   const TopSaleProducts({super.key});
@@ -56,7 +56,10 @@ class TopSaleProducts extends ConsumerWidget {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 4),
-                        Text('৳${product.salePrice}'),
+                        Text(
+                          '৳${product.salePrice}',
+                          style: TextStyle(color: Colors.purple),
+                        ),
                         if (product.totalSold != null)
                           Text(
                             'Sold: ${product.totalSold} items',
@@ -70,7 +73,9 @@ class TopSaleProducts extends ConsumerWidget {
                             IconButton(
                               tooltip: 'Add to wishlist',
                               onPressed: () {
-                                // Add to wishlist
+                                ref
+                                    .read(wishlistProvider.notifier)
+                                    .addToWishlist(product);
                               },
                               icon: Icon(Icons.favorite_outline),
                               iconSize: 20,

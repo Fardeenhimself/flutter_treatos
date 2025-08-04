@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:treatos_bd/widgets/brand_carousel.dart';
 import 'package:treatos_bd/widgets/carousel_bar.dart';
 import 'package:treatos_bd/widgets/category_list.dart';
-
 import 'package:treatos_bd/widgets/random_products.dart';
 import 'package:treatos_bd/widgets/top_sale_products.dart';
 
@@ -27,7 +26,8 @@ class HomeScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 12),
               child: Text(
                 'Categories',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 10),
@@ -39,7 +39,8 @@ class HomeScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 12),
               child: Text(
                 'Top Selling Products',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 10),
@@ -55,7 +56,8 @@ class HomeScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 12),
               child: Text(
                 'Recommendations For You',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 10),
