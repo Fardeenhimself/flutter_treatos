@@ -22,7 +22,7 @@ class ApiService {
   // List of All Products
   static Future<List<Product>> fetchAllProducts({
     int page = 1,
-    int limit = 10,
+    int limit = 6,
   }) async {
     final res = await http.get(
       Uri.parse(

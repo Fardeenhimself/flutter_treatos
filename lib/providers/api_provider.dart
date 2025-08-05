@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treatos_bd/models/category.dart';
 import 'package:treatos_bd/models/product.dart';
@@ -20,7 +21,7 @@ class AllProductsNotifier extends StateNotifier<List<Product>> {
   }
 
   int _currentPage = 1;
-  final int _limit = 10;
+  final int _limit = 6;
   bool _isLoading = false;
   bool _hasMore = true;
 
@@ -45,7 +46,7 @@ class AllProductsNotifier extends StateNotifier<List<Product>> {
       state = [...state, ...newProducts];
       _currentPage++;
     } catch (e) {
-      print('Error fetching more products: $e');
+      Center(child: Text('Error fetching more products: $e'));
     } finally {
       _isLoading = false;
     }
