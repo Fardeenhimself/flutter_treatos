@@ -69,4 +69,18 @@ class ApiService {
       throw Exception('Failed to load Products...');
     }
   }
+
+  // Product Detail
+  static Future<Product> fetchProductDetails(String productId) async {
+    final response = await http.get(
+      Uri.parse('https://pos.theabacuses.com/api/product/view/$productId'),
+    );
+
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body);
+      return Product.fromJson(json);
+    } else {
+      throw Exception('Failed to load product details');
+    }
+  }
 }

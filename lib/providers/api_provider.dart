@@ -66,3 +66,11 @@ final randomProductsProvider = FutureProvider<List<Product>>((ref) async {
 final topSaleProductsProvider = FutureProvider<List<Product>>((ref) async {
   return ApiService.fetchTopSaleProducs();
 });
+
+// For product details
+final productDetailProvider = FutureProvider.family<Product, String>((
+  ref,
+  productId,
+) async {
+  return ApiService.fetchProductDetails(productId);
+});

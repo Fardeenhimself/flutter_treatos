@@ -3,8 +3,11 @@ class Product {
   final String productName;
   final String salePrice;
   final String? discountPrice;
+  final String? categoryName;
   final String productImage;
+  final String? quantity;
   final String? totalSold;
+  final String? categoryId;
 
   // Constructor
   Product({
@@ -12,8 +15,11 @@ class Product {
     required this.productName,
     required this.salePrice,
     this.discountPrice, // might be null
+    this.categoryName,
     required this.productImage,
+    this.quantity,
     this.totalSold, // only for top-sale-products
+    this.categoryId,
   });
 
   // Convert from JSON
@@ -27,6 +33,9 @@ class Product {
               as String?, // if null ? dp = null : double price
       productImage: "https://pos.theabacuses.com${json['img_url']}",
       totalSold: json['total_sold'],
+      categoryId: json['category_id'],
+      categoryName: json['category_name'],
+      quantity: json['qty'] ?? '0',
     );
   }
 }
