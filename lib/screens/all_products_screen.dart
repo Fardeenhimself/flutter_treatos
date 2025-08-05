@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/widgets/allProductile_widget.dart';
-import 'package:treatos_bd/widgets/main_drawer.dart';
+
 
 class AllProductsScreen extends ConsumerStatefulWidget {
   const AllProductsScreen({super.key});

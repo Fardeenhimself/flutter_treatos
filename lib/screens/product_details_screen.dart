@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:treatos_bd/models/product.dart';
 import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/providers/cart_provider.dart';
 import 'package:treatos_bd/providers/wishlist_provider.dart';
-import 'package:treatos_bd/widgets/main_drawer.dart';
 
 class ProductDetailScreen extends ConsumerStatefulWidget {
   final String productId;
@@ -17,22 +15,6 @@ class ProductDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
-  int quantity = 1;
-
-  void _incrementQty() {
-    setState(() {
-      quantity++;
-    });
-  }
-
-  void _decrementQty() {
-    if (quantity > 1) {
-      setState(() {
-        quantity--;
-      });
-    }
-  }
-
   // Invalidate the provider to refetch the data
   // Wait for refetch to complete before finishing refresh indicator
   Future<void> _refresh() async {
@@ -156,36 +138,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
 
                 const SizedBox(height: 24),
 
-                // // Quantity selector
-                // Row(
-                //   children: [
-                //     const Text('Quantity:', style: TextStyle(fontSize: 16)),
-                //     const SizedBox(width: 12),
-                //     Container(
-                //       decoration: BoxDecoration(
-                //         color: Colors.white,
-                //         border: Border.all(color: Colors.grey.shade300),
-                //         borderRadius: BorderRadius.circular(8),
-                //       ),
-                //       child: Row(
-                //         children: [
-                //           IconButton(
-                //             icon: const Icon(Icons.remove),
-                //             onPressed: _decrementQty,
-                //           ),
-                //           Text(
-                //             '$quantity',
-                //             style: const TextStyle(fontSize: 16),
-                //           ),
-                //           IconButton(
-                //             icon: const Icon(Icons.add),
-                //             onPressed: _incrementQty,
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // ),
                 const SizedBox(height: 30),
 
                 // Action Buttons
@@ -226,7 +178,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                             ScaffoldMessenger.of(context).clearSnackBars();
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('Added $quantity to Cart'),
+                                content: Text(
+                                  'Added ${product.productName} to Cart',
+                                ),
                               ),
                             );
                           }

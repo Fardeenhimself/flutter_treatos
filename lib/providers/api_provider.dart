@@ -57,6 +57,15 @@ class AllProductsNotifier extends StateNotifier<List<Product>> {
   }
 }
 
+// Provider for selected category filtered products
+final filteredProductsByCategoryProvider =
+    Provider.family<List<Product>, String>((ref, categoryId) {
+      final allProducts = ref.watch(allProductsProvider);
+      return allProducts
+          .where((product) => product.categoryId == categoryId)
+          .toList();
+    });
+
 // For random products
 final randomProductsProvider = FutureProvider<List<Product>>((ref) async {
   return ApiService.fetchRandomProducts();
@@ -74,3 +83,10 @@ final productDetailProvider = FutureProvider.family<Product, String>((
 ) async {
   return ApiService.fetchProductDetails(productId);
 });
+
+// For products by category
+final productsByCategoryProvider = FutureProvider.family<List<Product>, String>(
+  (ref, categoryId) async {
+    return ApiService.fetchProductsByCategory(categoryId);
+  },
+);

@@ -83,4 +83,22 @@ class ApiService {
       throw Exception('Failed to load product details');
     }
   }
+
+  // List of Products by Category
+  static Future<List<Product>> fetchProductsByCategory(
+    String categoryId,
+  ) async {
+    final res = await http.get(
+      Uri.parse(
+        'https://pos.theabacuses.com/api/search?product_name=&category_id=$categoryId',
+      ),
+    );
+    if (res.statusCode == 200) {
+      final Map<String, dynamic> json = jsonDecode(res.body);
+      final List<dynamic> productsData = json['products'];
+      return productsData.map((item) => Product.fromJson(item)).toList();
+    } else {
+      throw Exception('Failed to load products for category');
+    }
+  }
 }
