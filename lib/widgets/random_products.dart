@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/providers/cart_provider.dart';
+import 'package:treatos_bd/providers/wishlist_provider.dart';
 
 class RandomProducts extends ConsumerWidget {
   const RandomProducts({super.key});
@@ -116,7 +117,34 @@ class RandomProducts extends ConsumerWidget {
                             IconButton(
                               tooltip: 'Add to wishlist',
                               onPressed: () {
-                                // Add to wishlist
+                                final wishlistNotifier = ref.read(
+                                  wishlistProvider.notifier,
+                                );
+                                final isInWishlist = wishlistNotifier
+                                    .isInWishlist(product.id);
+
+                                ScaffoldMessenger.of(context).clearSnackBars();
+
+                                if (isInWishlist) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        '${product.productName} is already in your wishlist.',
+                                      ),
+                                      duration: const Duration(seconds: 2),
+                                    ),
+                                  );
+                                } else {
+                                  wishlistNotifier.addToWishlist(product);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        '${product.productName} added to wishlist!',
+                                      ),
+                                      duration: const Duration(seconds: 1),
+                                    ),
+                                  );
+                                }
                               },
                               icon: const Icon(Icons.favorite_outline),
                               iconSize: 20,
@@ -128,6 +156,7 @@ class RandomProducts extends ConsumerWidget {
                                 ref
                                     .read(cartProvider.notifier)
                                     .addToCart(product);
+                                ScaffoldMessenger.of(context).clearSnackBars();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(

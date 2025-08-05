@@ -73,18 +73,34 @@ class TopSaleProducts extends ConsumerWidget {
                             IconButton(
                               tooltip: 'Add to wishlist',
                               onPressed: () {
-                                ref
-                                    .read(wishlistProvider.notifier)
-                                    .addToWishlist(product);
-                                ScaffoldMessenger.of(context).clearSnackBars();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      '${product.productName} added to wish list!',
-                                    ),
-                                    duration: Duration(seconds: 1),
-                                  ),
+                                final wishlistNotifier = ref.read(
+                                  wishlistProvider.notifier,
                                 );
+                                final isInWishlist = wishlistNotifier
+                                    .isInWishlist(product.id);
+
+                                ScaffoldMessenger.of(context).clearSnackBars();
+
+                                if (isInWishlist) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        '${product.productName} is already in your wishlist.',
+                                      ),
+                                      duration: const Duration(seconds: 2),
+                                    ),
+                                  );
+                                } else {
+                                  wishlistNotifier.addToWishlist(product);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        '${product.productName} added to wishlist!',
+                                      ),
+                                      duration: const Duration(seconds: 1),
+                                    ),
+                                  );
+                                }
                               },
                               icon: Icon(Icons.favorite_outline),
                               iconSize: 20,
