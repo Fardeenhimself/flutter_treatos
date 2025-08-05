@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/models/category.dart';
 import 'package:treatos_bd/screens/all_products_screen.dart';
+import 'package:treatos_bd/screens/category_product_screen.dart';
 import 'package:treatos_bd/screens/home_screen.dart';
 import 'package:treatos_bd/screens/main_tab.dart';
 
@@ -42,7 +43,14 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
         child: ListTile(
           title: Text(cat.categoryName),
           onTap: () {
-            // Navigate to cateogory
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (ctx) => CategoryProductsScreen(
+                  categoryName: cat.categoryName,
+                  categoryId: cat.id,
+                ),
+              ),
+            );
           },
         ),
       );
