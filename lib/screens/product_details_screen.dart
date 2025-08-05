@@ -4,6 +4,7 @@ import 'package:treatos_bd/models/product.dart';
 import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/providers/cart_provider.dart';
 import 'package:treatos_bd/providers/wishlist_provider.dart';
+import 'package:treatos_bd/widgets/main_drawer.dart';
 
 class ProductDetailScreen extends ConsumerStatefulWidget {
   final String productId;
@@ -53,6 +54,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
         foregroundColor: Colors.black,
         elevation: 0.5,
       ),
+      endDrawer: MainDrawer(),
       body: productDetailAsync.when(
         data: (product) => RefreshIndicator(
           onRefresh: _refresh,

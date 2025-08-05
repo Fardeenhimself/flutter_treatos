@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/models/category.dart';
+import 'package:treatos_bd/screens/all_products_screen.dart';
+import 'package:treatos_bd/screens/home_screen.dart';
+import 'package:treatos_bd/screens/main_tab.dart';
 
 class MainDrawer extends ConsumerStatefulWidget {
   const MainDrawer({super.key});
@@ -17,9 +20,15 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
   // Menu Options
   List<Widget> _buildMenuOptions() {
     return [
-      _buildDrawerItem(Icons.home, "Home", () {}),
-      _buildDrawerItem(Icons.shopping_bag, "Products", () {}),
-      _buildDrawerItem(Icons.local_shipping, "Track Order", () {}),
+      _buildDrawerItem(Icons.home, "Home", () {
+        // Will take to home screen
+      }),
+      _buildDrawerItem(Icons.shopping_bag, "Products", () {
+        // Will take to all product screen
+      }),
+      _buildDrawerItem(Icons.local_shipping, "Track Order", () {
+        // Will take to track order screen
+      }),
     ];
   }
 

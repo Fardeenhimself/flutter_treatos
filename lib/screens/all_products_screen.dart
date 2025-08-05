@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/widgets/allProductile_widget.dart';
+import 'package:treatos_bd/widgets/main_drawer.dart';
 
 class AllProductsScreen extends ConsumerStatefulWidget {
   const AllProductsScreen({super.key});
@@ -37,6 +38,7 @@ class _AllProductsScreenState extends ConsumerState<AllProductsScreen> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('All Products')),
+      endDrawer: MainDrawer(),
       body: products.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : GridView.builder(
