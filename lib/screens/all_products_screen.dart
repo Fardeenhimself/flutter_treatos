@@ -57,7 +57,6 @@ class _AllProductsScreenState extends ConsumerState<AllProductsScreen> {
                 final product = products[index];
                 return ProductGridTile(
                   product: product,
-                  ref: ref,
                   image: product.productImage,
                 );
               },
