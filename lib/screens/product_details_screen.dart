@@ -54,7 +54,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
         foregroundColor: Colors.black,
         elevation: 0.5,
       ),
-      endDrawer: MainDrawer(),
       body: productDetailAsync.when(
         data: (product) => RefreshIndicator(
           onRefresh: _refresh,

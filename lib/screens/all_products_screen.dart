@@ -38,7 +38,6 @@ class _AllProductsScreenState extends ConsumerState<AllProductsScreen> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('All Products')),
-      endDrawer: MainDrawer(),
       body: products.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : GridView.builder(
