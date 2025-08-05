@@ -156,37 +156,36 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
 
                 const SizedBox(height: 24),
 
-                // Quantity selector
-                Row(
-                  children: [
-                    const Text('Quantity:', style: TextStyle(fontSize: 16)),
-                    const SizedBox(width: 12),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey.shade300),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.remove),
-                            onPressed: _decrementQty,
-                          ),
-                          Text(
-                            '$quantity',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.add),
-                            onPressed: _incrementQty,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-
+                // // Quantity selector
+                // Row(
+                //   children: [
+                //     const Text('Quantity:', style: TextStyle(fontSize: 16)),
+                //     const SizedBox(width: 12),
+                //     Container(
+                //       decoration: BoxDecoration(
+                //         color: Colors.white,
+                //         border: Border.all(color: Colors.grey.shade300),
+                //         borderRadius: BorderRadius.circular(8),
+                //       ),
+                //       child: Row(
+                //         children: [
+                //           IconButton(
+                //             icon: const Icon(Icons.remove),
+                //             onPressed: _decrementQty,
+                //           ),
+                //           Text(
+                //             '$quantity',
+                //             style: const TextStyle(fontSize: 16),
+                //           ),
+                //           IconButton(
+                //             icon: const Icon(Icons.add),
+                //             onPressed: _incrementQty,
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 const SizedBox(height: 30),
 
                 // Action Buttons
