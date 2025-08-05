@@ -69,7 +69,9 @@ class TopSaleProducts extends ConsumerWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            '৳${product.salePrice}',
+                            product.discountPrice == null
+                                ? '৳${product.salePrice}'
+                                : '৳${product.discountPrice}',
                             style: TextStyle(color: Colors.purple),
                           ),
                           if (product.totalSold != null)
