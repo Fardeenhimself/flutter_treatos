@@ -127,16 +127,27 @@ class ProductGridTile extends ConsumerWidget {
                       IconButton(
                         tooltip: 'Add to cart',
                         onPressed: () {
-                          ref.read(cartProvider.notifier).addToCart(product);
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                '${product.productName} added to cart!',
+                          if (product.quantity == '0.00') {
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                duration: Duration(seconds: 5),
+                                content: Text(
+                                  'Product not currently available',
+                                ),
                               ),
-                              duration: const Duration(seconds: 1),
-                            ),
-                          );
+                            );
+                          } else {
+                            ref.read(cartProvider.notifier).addToCart(product);
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Added ${product.productName} to Cart',
+                                ),
+                              ),
+                            );
+                          }
                         },
                         icon: const Icon(Icons.shopping_cart_outlined),
                         iconSize: 20,

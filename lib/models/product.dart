@@ -35,7 +35,7 @@ class Product {
       totalSold: json['total_sold'],
       categoryId: json['category_id'],
       categoryName: json['category_name'],
-      quantity: json['qty'] ?? '0',
+      quantity: json['qty'] as String?,
     );
   }
 }

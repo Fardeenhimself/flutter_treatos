@@ -113,18 +113,26 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                           color: Colors.black87,
                         ),
                       ),
-                    if (product.quantity == '0')
-                      const Padding(
-                        padding: EdgeInsets.only(top: 4),
-                        child: Text(
-                          'Out of stock',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.redAccent,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 4),
+                      child: product.quantity == '0.00'
+                          ? Text(
+                              'Out of stock',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.redAccent,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          : Text(
+                              'In Stock',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.greenAccent,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                    ),
                   ],
                 ),
 
@@ -136,10 +144,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                   style: TextStyle(fontSize: 16, color: Colors.black87),
                 ),
 
-                const SizedBox(height: 24),
-
                 const SizedBox(height: 30),
-
                 // Action Buttons
                 Row(
                   children: [
@@ -163,7 +168,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                           backgroundColor: Colors.purpleAccent.shade200,
                         ),
                         onPressed: () {
-                          if (product.quantity == '0') {
+                          if (product.quantity == '0.00') {
                             ScaffoldMessenger.of(context).clearSnackBars();
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
