@@ -26,6 +26,8 @@ class TopSaleProducts extends ConsumerWidget {
           itemCount: topProducts.length,
           itemBuilder: (ctx, index) {
             final product = topProducts[index];
+            final wishlist = ref.watch(wishlistProvider);
+            final isInWishlist = wishlist.any((item) => item.id == product.id);
             return Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey.shade300),
@@ -102,7 +104,11 @@ class TopSaleProducts extends ConsumerWidget {
                                   );
                                 }
                               },
-                              icon: Icon(Icons.favorite_outline),
+                              icon: Icon(
+                                isInWishlist
+                                    ? Icons.favorite
+                                    : Icons.favorite_border_outlined,
+                              ),
                               iconSize: 20,
                             ),
                             const SizedBox(width: 10),

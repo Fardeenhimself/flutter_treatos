@@ -27,6 +27,8 @@ class RandomProducts extends ConsumerWidget {
           itemBuilder: (ctx, index) {
             final product = randomProducts[index];
             final imageUrl = product.productImage;
+            final wishlist = ref.watch(wishlistProvider);
+            final isInWishlist = wishlist.any((item) => item.id == product.id);
 
             return Container(
               decoration: BoxDecoration(
@@ -146,7 +148,11 @@ class RandomProducts extends ConsumerWidget {
                                   );
                                 }
                               },
-                              icon: const Icon(Icons.favorite_outline),
+                              icon: Icon(
+                                isInWishlist
+                                    ? Icons.favorite
+                                    : Icons.favorite_border_outlined,
+                              ),
                               iconSize: 20,
                             ),
                             const SizedBox(width: 10),
