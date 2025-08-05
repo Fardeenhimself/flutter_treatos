@@ -9,9 +9,52 @@ final categoryProvider = FutureProvider<List<Category>>((ref) async {
 });
 
 // For All products
-final allProductsProvider = FutureProvider<List<Product>>((ref) async {
-  return ApiService.fetchAllProducts();
-});
+final allProductsProvider =
+    StateNotifierProvider<AllProductsNotifier, List<Product>>(
+      (ref) => AllProductsNotifier(),
+    );
+
+class AllProductsNotifier extends StateNotifier<List<Product>> {
+  AllProductsNotifier() : super([]) {
+    _fetchNextPage();
+  }
+
+  int _currentPage = 1;
+  final int _limit = 10;
+  bool _isLoading = false;
+  bool _hasMore = true;
+
+  bool get isLoading => _isLoading;
+  bool get hasMore => _hasMore;
+
+  Future<void> _fetchNextPage() async {
+    if (_isLoading || !_hasMore) return;
+
+    _isLoading = true;
+
+    try {
+      final newProducts = await ApiService.fetchAllProducts(
+        page: _currentPage,
+        limit: _limit,
+      );
+
+      if (newProducts.length < _limit) {
+        _hasMore = false;
+      }
+
+      state = [...state, ...newProducts];
+      _currentPage++;
+    } catch (e) {
+      print('Error fetching more products: $e');
+    } finally {
+      _isLoading = false;
+    }
+  }
+
+  void loadMore() {
+    _fetchNextPage();
+  }
+}
 
 // For random products
 final randomProductsProvider = FutureProvider<List<Product>>((ref) async {

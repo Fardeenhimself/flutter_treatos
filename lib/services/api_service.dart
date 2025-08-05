@@ -20,9 +20,14 @@ class ApiService {
   }
 
   // List of All Products
-  static Future<List<Product>> fetchAllProducts() async {
+  static Future<List<Product>> fetchAllProducts({
+    int page = 1,
+    int limit = 10,
+  }) async {
     final res = await http.get(
-      Uri.parse('https://pos.theabacuses.com/api/product'),
+      Uri.parse(
+        'https://pos.theabacuses.com/api/product?page=$page&limit=$limit',
+      ),
     );
     if (res.statusCode == 200) {
       final Map<String, dynamic> json = jsonDecode(res.body);
