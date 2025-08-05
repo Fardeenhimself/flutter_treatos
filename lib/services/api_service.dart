@@ -19,6 +19,21 @@ class ApiService {
     }
   }
 
+  // List of All Products
+  static Future<List<Product>> fetchAllProducts() async {
+    final res = await http.get(
+      Uri.parse('https://pos.theabacuses.com/api/product'),
+    );
+    if (res.statusCode == 200) {
+      final Map<String, dynamic> json = jsonDecode(res.body);
+      final List<dynamic> allProductdata = json['products'];
+
+      return allProductdata.map((item) => Product.fromJson(item)).toList();
+    } else {
+      throw Exception('Failed to load all products');
+    }
+  }
+
   // List of Random products
   static Future<List<Product>> fetchRandomProducts() async {
     final res = await http.get(

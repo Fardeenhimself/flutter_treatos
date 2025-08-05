@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:treatos_bd/screens/all_products_screen.dart';
 import 'package:treatos_bd/widgets/brand_carousel.dart';
 import 'package:treatos_bd/widgets/carousel_bar.dart';
 import 'package:treatos_bd/widgets/category_list.dart';
@@ -15,8 +16,6 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // ---------------------------------------------|| Body Content ||--------------------------------- \\
-
             // ----  CAROUSEL ---
             CarouselBar(),
             const SizedBox(height: 20),
@@ -72,7 +71,9 @@ class HomeScreen extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    // Navigate to all products
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (ctx) => AllProductsScreen()),
+                    );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
