@@ -104,7 +104,7 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
     return Drawer(
       child: Column(
         children: [
-          // --------------------------------------------- Drawer header---------------------------------
+          // --------------------------------------------- Drawer header--------------------------------- \\
           DrawerHeader(
             decoration: BoxDecoration(color: Colors.purple.shade100),
             child: Column(

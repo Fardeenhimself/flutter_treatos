@@ -7,6 +7,7 @@ import 'package:treatos_bd/screens/home_screen.dart';
 import 'package:treatos_bd/screens/search_screen.dart';
 import 'package:treatos_bd/screens/wishlist_screen.dart';
 import 'package:treatos_bd/widgets/main_drawer.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 class MainTab extends ConsumerStatefulWidget {
   const MainTab({super.key});
@@ -16,17 +17,16 @@ class MainTab extends ConsumerStatefulWidget {
 }
 
 class _MainTabState extends ConsumerState<MainTab> {
-  int _currentIndex = 0;
+  // Persistent tab controller
+  final _controller = PersistentTabController(initialIndex: 0);
 
-  final List<Widget> _screens = [
-    HomeScreen(),
-    SearchScreen(),
-    WishlistScreen(),
-    CartScreen(),
-  ];
+  List<Widget> _screens() {
+    // List of screens to be displayed
+    return [HomeScreen(), SearchScreen(), WishlistScreen(), CartScreen()];
+  }
 
-  @override
-  Widget build(BuildContext context) {
+  // List of nav bar items
+  List<PersistentBottomNavBarItem> _navBarItems() {
     // To show the count of cart items
     final cartItems = ref.watch(cartProvider);
     final cartCount = cartItems.fold<int>(
@@ -36,93 +36,104 @@ class _MainTabState extends ConsumerState<MainTab> {
 
     // To show the count of wish list
     final wishlistItems = ref.watch(wishlistProvider);
+    return [
+      PersistentBottomNavBarItem(
+        icon: Icon(Icons.home),
+        title: "Home",
+        activeColorPrimary: Colors.deepPurple,
+        inactiveColorPrimary: Colors.grey,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(Icons.search),
+        title: "Search",
+        activeColorPrimary: Colors.deepPurple,
+        inactiveColorPrimary: Colors.grey,
+      ),
+      PersistentBottomNavBarItem(
+        title: "Wish List",
+        activeColorPrimary: Colors.deepPurple,
+        inactiveColorPrimary: Colors.grey,
+        icon: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            const Icon(Icons.favorite),
+            if (wishlistItems.isNotEmpty)
+              Positioned(
+                top: -4,
+                right: -6,
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    color: Colors.purple,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 16,
+                    minHeight: 16,
+                  ),
+                  child: Text(
+                    '${wishlistItems.length}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+      PersistentBottomNavBarItem(
+        title: "Cart",
+        activeColorPrimary: Colors.deepPurple,
+        inactiveColorPrimary: Colors.grey,
+        icon: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            const Icon(Icons.shopping_cart),
+            if (cartCount > 0)
+              Positioned(
+                top: -4,
+                right: -6,
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    color: Colors.purple,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 16,
+                    minHeight: 16,
+                  ),
+                  child: Text(
+                    '$cartCount',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    ];
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Image.asset('assets/logo.png')),
       drawer: MainDrawer(),
-      body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.deepPurple,
-        unselectedItemColor: Colors.grey,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-          BottomNavigationBarItem(
-            icon: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                const Icon(Icons.favorite),
-                if (wishlistItems.isNotEmpty)
-                  Positioned(
-                    top: -4,
-                    right: -6,
-                    child: Container(
-                      padding: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        color: Colors.purple,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      constraints: const BoxConstraints(
-                        minWidth: 16,
-                        minHeight: 16,
-                      ),
-                      child: Text(
-                        '${wishlistItems.length}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-            label: 'Wish List',
-          ),
-          BottomNavigationBarItem(
-            icon: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                const Icon(Icons.shopping_cart),
-                if (cartCount > 0)
-                  Positioned(
-                    top: -4,
-                    right: -6,
-                    child: Container(
-                      padding: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        color: Colors.purple,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      constraints: const BoxConstraints(
-                        minWidth: 16,
-                        minHeight: 16,
-                      ),
-                      child: Text(
-                        '$cartCount',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-            label: 'Cart',
-          ),
-        ],
+      body: PersistentTabView(
+        context,
+        screens: _screens(),
+        items: _navBarItems(),
+        controller: _controller,
       ),
     );
   }

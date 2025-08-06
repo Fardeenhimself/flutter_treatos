@@ -5,6 +5,7 @@ import 'package:treatos_bd/widgets/carousel_bar.dart';
 import 'package:treatos_bd/widgets/category_list.dart';
 import 'package:treatos_bd/widgets/random_products.dart';
 import 'package:treatos_bd/widgets/top_sale_products.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -71,8 +72,12 @@ class HomeScreen extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (ctx) => AllProductsScreen()),
+                    PersistentNavBarNavigator.pushNewScreen(
+                      context,
+                      screen: AllProductsScreen(),
+                      withNavBar: true,
+                      pageTransitionAnimation:
+                          PageTransitionAnimation.cupertino,
                     );
                   },
                   child: Row(
