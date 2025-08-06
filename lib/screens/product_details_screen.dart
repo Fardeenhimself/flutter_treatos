@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/providers/cart_provider.dart';
 import 'package:treatos_bd/providers/wishlist_provider.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProductDetailScreen extends ConsumerStatefulWidget {
   final String productId;
@@ -21,6 +22,22 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
   Future<void> _refresh() async {
     ref.invalidate(productDetailProvider(widget.productId));
     await ref.read(productDetailProvider(widget.productId).future);
+  }
+
+  // Sending message to whatsapp using url_launcher
+  Future<void> sendMessageToWhatsApp({
+    required String phoneNumber,
+    required String productName,
+    required String productId,
+  }) async {
+    final message = Uri.encodeComponent(
+      "Hello, I'm interested in the product: $productName (ID: $productId). Could you provide more details?",
+    );
+    final whatsappUrl = Uri.parse("https://wa.me/$phoneNumber?text=$message");
+
+    if (!await launchUrl(whatsappUrl, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch WhatsApp';
+    }
   }
 
   @override
@@ -157,8 +174,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                           style: const TextStyle(
                             fontSize: 16,
                             inherit: true,
-                            color: Colors
-                                .white, 
+                            color: Colors.white,
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
@@ -228,6 +244,21 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, _) => Center(child: Text('Error: $err')),
+      ),
+      floatingActionButton: productDetailAsync.when(
+        data: (product) => FloatingActionButton(
+          onPressed: () {
+            sendMessageToWhatsApp(
+              phoneNumber: '8801711379218',
+              productName: product.productName,
+              productId: product.id.toString(),
+            );
+          },
+          backgroundColor: Colors.purple,
+          child: const FaIcon(FontAwesomeIcons.whatsapp, color: Colors.white),
+        ),
+        loading: () => const SizedBox.shrink(),
+        error: (_, __) => const SizedBox.shrink(),
       ),
     );
   }
