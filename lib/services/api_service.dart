@@ -143,18 +143,25 @@ class ApiService {
   static Future<List<Order>> trackOrder(String phone) async {
     final response = await http.get(
       Uri.parse('https://pos.theabacuses.com/api/track/phone?phone=$phone'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
+      headers: {'Accept': 'application/json'},
     );
 
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
 
       if (json['success'] == true) {
-        final List ordersJson = json['data'] as List;
-        return ordersJson.map((e) => Order.fromJson(e)).toList();
+        final List ordersJson =
+            json['orders'] as List; // Changed from 'data' to 'orders'
+
+        final orders = ordersJson.map((e) {
+          try {
+            return Order.fromJson(e);
+          } catch (e, stack) {
+            rethrow;
+          }
+        }).toList();
+
+        return orders;
       } else {
         throw Exception(json['message'] ?? 'Unknown error occurred');
       }

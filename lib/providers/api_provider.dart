@@ -154,3 +154,14 @@ class OrderTrackingNotifier extends StateNotifier<AsyncValue<List<Order>>> {
     state = const AsyncValue.data([]);
   }
 }
+
+// To check whether the shipping is from or outside khulna
+final shippingMethodProvider = StateProvider<String>((ref) => '');
+
+// For setting the shipping cost value
+final shippingCostProvider = StateProvider<double>((ref) => 0.0);
+
+// // For categories
+// final categoryProvider = FutureProvider<List<Category>>((ref) async {
+//   return ApiService.fetchCategories();
+// });

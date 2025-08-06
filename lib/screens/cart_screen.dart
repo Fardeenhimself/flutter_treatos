@@ -5,9 +5,7 @@ import 'package:treatos_bd/providers/cart_provider.dart';
 import 'package:treatos_bd/screens/checkout_screen.dart';
 import 'package:treatos_bd/widgets/main_drawer.dart';
 import 'package:treatos_bd/widgets/reset_cart_dialogue.dart';
-
-// State provider to track selected shipping cost
-final shippingCostProvider = StateProvider<double>((ref) => 0.0);
+import 'package:treatos_bd/providers/api_provider.dart';
 
 class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
@@ -16,7 +14,6 @@ class CartScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cartItems = ref.watch(cartProvider);
     final shippingCost = ref.watch(shippingCostProvider);
-    
 
     // Calculate subtotal
     double subtotal = 0;
@@ -234,6 +231,8 @@ class CartScreen extends ConsumerWidget {
                             onChanged: (_) {
                               ref.read(shippingCostProvider.notifier).state =
                                   40.0;
+                              ref.read(shippingMethodProvider.notifier).state =
+                                  'Inside Khulna';
                             },
                           ),
                           const Text('Inside Khulna (৳40.00)'),
@@ -246,6 +245,8 @@ class CartScreen extends ConsumerWidget {
                             onChanged: (_) {
                               ref.read(shippingCostProvider.notifier).state =
                                   120.0;
+                              ref.read(shippingMethodProvider.notifier).state =
+                                  'Outside Khulna';
                             },
                           ),
                           const Text('Outside Khulna (৳120.00)'),

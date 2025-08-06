@@ -38,6 +38,7 @@ class Order {
       'total': total,
       'notes': notes,
       'products': products.map((product) => product.toJson()).toList(),
+      'platform': 'app',
     };
   }
 

@@ -5,6 +5,7 @@ import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/providers/cart_provider.dart';
 import 'package:treatos_bd/screens/order_completion_screen.dart';
 import 'package:treatos_bd/screens/cart_screen.dart';
+import 'package:treatos_bd/providers/api_provider.dart';
 
 class CheckoutPage extends ConsumerStatefulWidget {
   const CheckoutPage({super.key});
@@ -38,8 +39,8 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
     final cartItems = ref.watch(cartProvider);
+    final shippingMethod = ref.watch(shippingMethodProvider);
     final shippingCost = ref.watch(shippingCostProvider);
-    const shippingMethod = 'Standard';
 
     double subtotal = 0;
     for (var item in cartItems) {
