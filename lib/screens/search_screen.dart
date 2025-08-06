@@ -17,6 +17,12 @@ class _SearchProductsPageState extends ConsumerState<SearchProductsPage> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
+  void dispose() {
+    super.dispose();
+    _searchController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final searchText = _searchController.text.trim();
     final productsAsync = ref.watch(

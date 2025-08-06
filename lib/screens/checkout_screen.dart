@@ -4,24 +4,46 @@ import 'package:treatos_bd/providers/cart_provider.dart';
 import 'package:treatos_bd/screens/order_completion_screen.dart';
 import 'package:treatos_bd/screens/cart_screen.dart';
 
-class CheckoutPage extends ConsumerWidget {
+class CheckoutPage extends ConsumerStatefulWidget {
   const CheckoutPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CheckoutPage> createState() => _CheckoutPageState();
+}
+
+class _CheckoutPageState extends ConsumerState<CheckoutPage> {
+  final _formKey = GlobalKey<FormState>();
+  late final TextEditingController nameController;
+  late final TextEditingController addressController;
+  late final TextEditingController phoneController;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController();
+    addressController = TextEditingController();
+    phoneController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    addressController.dispose();
+    phoneController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final cartItems = ref.watch(cartProvider);
     final shippingCost = ref.watch(shippingCostProvider);
 
     double subtotal = 0;
     for (var item in cartItems) {
-      subtotal += double.tryParse(item.salePrice)! * item.quantity;
+      final price = double.tryParse(item.salePrice) ?? 0.0;
+      subtotal += price * item.quantity;
     }
     double total = subtotal + shippingCost;
-
-    final _formKey = GlobalKey<FormState>();
-    final nameController = TextEditingController();
-    final addressController = TextEditingController();
-    final phoneController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Checkout')),
@@ -105,7 +127,7 @@ class CheckoutPage extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Billing Details',
+                    'Delivery To: ',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
