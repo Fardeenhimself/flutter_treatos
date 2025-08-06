@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:treatos_bd/models/order.dart';
+import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/providers/cart_provider.dart';
 import 'package:treatos_bd/screens/order_completion_screen.dart';
 import 'package:treatos_bd/screens/cart_screen.dart';
@@ -37,6 +39,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
   Widget build(BuildContext context) {
     final cartItems = ref.watch(cartProvider);
     final shippingCost = ref.watch(shippingCostProvider);
+    const shippingMethod = 'Standard';
 
     double subtotal = 0;
     for (var item in cartItems) {
@@ -44,6 +47,18 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
       subtotal += price * item.quantity;
     }
     double total = subtotal + shippingCost;
+
+    final List<OrderProduct> orderProducts = cartItems
+        .map(
+          (item) => OrderProduct(
+            id: item.id,
+            productName: item.productName,
+            quantity: item.quantity,
+            salePrice: double.parse(item.salePrice),
+            totalPrice: double.parse(item.salePrice) * item.quantity,
+          ),
+        )
+        .toList();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Checkout')),
@@ -136,6 +151,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
+                    maxLength: 40,
                     controller: nameController,
                     decoration: const InputDecoration(
                       labelText: 'Full Name',
@@ -146,6 +162,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
+                    maxLength: 11,
                     controller: phoneController,
                     decoration: const InputDecoration(
                       labelText: 'Phone Number',
@@ -187,24 +204,53 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  // Simulate placing order
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Order placed successfully!")),
-                  );
+                  try {
+                    final order = Order(
+                      phone: phoneController.text,
+                      name: nameController.text,
+                      address: addressController.text,
+                      subtotal: subtotal,
+                      shippingMethod: shippingMethod,
+                      shippingCost: shippingCost,
+                      total: total,
+                      products: orderProducts,
+                    );
 
-                  // Optionally clear cart
-                  ref.read(cartProvider.notifier).clearCart();
+                    final success = await ref
+                        .read(orderPlacementProvider.notifier)
+                        .placeOrder(order);
 
-                  // Go to success/tracking page
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          const OrderStatusPage(isSuccess: true),
-                    ),
-                  );
+                    if (success && mounted) {
+                      ref.read(cartProvider.notifier).clearCart();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (ctx) =>
+                              const OrderStatusPage(isSuccess: true),
+                        ),
+                      );
+                    } else if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Failed to place order. Please try again.',
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
+                  } catch (e) {
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Error: ${e.toString()}'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
+                  }
                 }
               },
             ),

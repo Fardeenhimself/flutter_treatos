@@ -16,6 +16,7 @@ class CartScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cartItems = ref.watch(cartProvider);
     final shippingCost = ref.watch(shippingCostProvider);
+    
 
     // Calculate subtotal
     double subtotal = 0;

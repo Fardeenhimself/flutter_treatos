@@ -7,6 +7,7 @@ import 'package:treatos_bd/models/category.dart';
 import 'package:treatos_bd/screens/all_products_screen.dart';
 import 'package:treatos_bd/screens/category_product_screen.dart';
 import 'package:treatos_bd/screens/home_screen.dart';
+import 'package:treatos_bd/screens/tracking_order.dart';
 
 class MainDrawer extends ConsumerStatefulWidget {
   const MainDrawer({super.key});
@@ -33,7 +34,13 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
         );
       }),
       _buildDrawerItem(Icons.local_shipping, "Track Order", () {
-        // Will take to track order screen
+        Navigator.of(context).pop(); // Close the drawer first
+        PersistentNavBarNavigator.pushNewScreen(
+          context,
+          screen: const TrackOrderScreen(),
+          withNavBar: true, // Keeps bottom navbar visible
+          pageTransitionAnimation: PageTransitionAnimation.cupertino,
+        );
       }),
     ];
   }

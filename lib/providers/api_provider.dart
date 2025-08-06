@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treatos_bd/models/category.dart';
+import 'package:treatos_bd/models/order.dart';
 import 'package:treatos_bd/models/product.dart';
 import 'package:treatos_bd/services/api_service.dart';
 
@@ -103,3 +104,53 @@ final searchProductsProvider =
         categoryId: categoryId,
       );
     });
+
+// For placing order
+final orderPlacementProvider =
+    StateNotifierProvider<OrderPlacementNotifier, AsyncValue<void>>((ref) {
+      return OrderPlacementNotifier();
+    });
+
+class OrderPlacementNotifier extends StateNotifier<AsyncValue<void>> {
+  OrderPlacementNotifier() : super(const AsyncValue.data(null));
+
+  Future<bool> placeOrder(Order order) async {
+    state = const AsyncValue.loading();
+
+    try {
+      await ApiService.placeOrder(order);
+      state = const AsyncValue.data(null);
+      return true;
+    } catch (error, stackTrace) {
+      state = AsyncValue.error(error, stackTrace);
+      return false;
+    }
+  }
+}
+
+// For tracking order
+final orderTrackingProvider =
+    StateNotifierProvider<OrderTrackingNotifier, AsyncValue<List<Order>>>((
+      ref,
+    ) {
+      return OrderTrackingNotifier();
+    });
+
+class OrderTrackingNotifier extends StateNotifier<AsyncValue<List<Order>>> {
+  OrderTrackingNotifier() : super(const AsyncValue.data([]));
+
+  Future<void> trackOrder(String phone) async {
+    state = const AsyncValue.loading();
+
+    try {
+      final orders = await ApiService.trackOrder(phone);
+      state = AsyncValue.data(orders);
+    } catch (error, stackTrace) {
+      state = AsyncValue.error(error, stackTrace);
+    }
+  }
+
+  void clearTracking() {
+    state = const AsyncValue.data([]);
+  }
+}

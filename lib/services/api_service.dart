@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:treatos_bd/models/category.dart';
+import 'package:treatos_bd/models/order.dart';
 import 'package:treatos_bd/models/product.dart';
 
 class ApiService {
@@ -118,6 +119,60 @@ class ApiService {
       return productsData.map((item) => Product.fromJson(item)).toList();
     } else {
       throw Exception('Failed to load products');
+    }
+  }
+
+  // For placing order
+  static Future<Map<String, dynamic>> placeOrder(Order order) async {
+    final response = await http.post(
+      Uri.parse('https://pos.theabacuses.com/api/checkout'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(order.toJson()),
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception(
+        'Failed to place order. Status code: ${response.statusCode}',
+      );
+    }
+  }
+
+  // For tracking order
+  static Future<List<Order>> trackOrder(String phone) async {
+    try {
+      print('Tracking order for phone: $phone');
+
+      final uri = Uri.parse(
+        'https://pos.theabacuses.com/api/track/phone',
+      ).replace(queryParameters: {'phone': phone});
+
+      final response = await http.get(
+        uri,
+        headers: {'Accept': 'application/json'},
+      );
+
+      print('Track order response status: ${response.statusCode}');
+      print('Track order response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        final ordersJson = json['orders'] as List<dynamic>;
+
+        return ordersJson
+            .map((orderJson) => Order.fromJson(orderJson))
+            .toList();
+      } else {
+        throw Exception(
+          'Failed to track order. Status: ${response.statusCode}, '
+          'Response: ${response.body}',
+        );
+      }
+    } catch (e, stackTrace) {
+      print('Error tracking order: $e');
+      print('Stack trace: $stackTrace');
+      rethrow;
     }
   }
 }
