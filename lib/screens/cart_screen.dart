@@ -104,7 +104,7 @@ class CartScreen extends ConsumerWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    item.productName,
+                                    item.productName.toUpperCase(),
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
@@ -281,14 +281,33 @@ class CartScreen extends ConsumerWidget {
 
                 // Checkout Button
                 Padding(
-                  padding: const EdgeInsets.all(24.0),
+                  padding: const EdgeInsets.only(
+                    top: 2,
+                    left: 24,
+                    right: 24,
+                    bottom: 20,
+                  ),
                   child: ElevatedButton.icon(
-                    onPressed: () {
-                      PersistentNavBarNavigator.pushNewScreen(
-                        context,
-                        screen: CheckoutPage(),
-                      );
-                    },
+                    onPressed: shippingCost == 0
+                        ? () {
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.red,
+                                duration: Duration(seconds: 3),
+                                content: Text(
+                                  'Please select a shipping fee!',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ),
+                            );
+                          }
+                        : () {
+                            PersistentNavBarNavigator.pushNewScreen(
+                              context,
+                              screen: CheckoutPage(),
+                            );
+                          },
                     icon: const Icon(
                       Icons.shopping_cart_checkout,
                       color: Colors.white,

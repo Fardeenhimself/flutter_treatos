@@ -33,6 +33,7 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
             ),
+            const Divider(indent: 30, endIndent: 30, thickness: 2),
             const SizedBox(height: 10),
             CategoryList(),
             const SizedBox(height: 20),
@@ -46,6 +47,7 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
             ),
+            const Divider(indent: 30, endIndent: 30, thickness: 2),
             const SizedBox(height: 10),
             TopSaleProducts(),
             const SizedBox(height: 20),
@@ -63,6 +65,7 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
             ),
+            const Divider(indent: 30, endIndent: 30, thickness: 2),
             const SizedBox(height: 10),
             RandomProducts(),
 
