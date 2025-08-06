@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:treatos_bd/providers/cart_provider.dart';
+import 'package:treatos_bd/screens/checkout_screen.dart';
 import 'package:treatos_bd/widgets/main_drawer.dart';
 import 'package:treatos_bd/widgets/reset_cart_dialogue.dart';
 
@@ -282,7 +284,10 @@ class CartScreen extends ConsumerWidget {
                   padding: const EdgeInsets.all(24.0),
                   child: ElevatedButton.icon(
                     onPressed: () {
-                      // Nothing for now
+                      PersistentNavBarNavigator.pushNewScreen(
+                        context,
+                        screen: CheckoutPage(),
+                      );
                     },
                     icon: const Icon(
                       Icons.shopping_cart_checkout,
