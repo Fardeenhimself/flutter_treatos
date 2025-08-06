@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/screens/product_details_screen.dart';
 import 'package:treatos_bd/widgets/allProductile_widget.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 class CategoryProductsScreen extends ConsumerWidget {
   final String categoryId;
@@ -42,12 +43,9 @@ class CategoryProductsScreen extends ConsumerWidget {
               final product = filteredProducts[index];
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(
+                  PersistentNavBarNavigator.pushNewScreen(
                     context,
-                    MaterialPageRoute(
-                      builder: (_) =>
-                          ProductDetailScreen(productId: product.id),
-                    ),
+                    screen: ProductDetailScreen(productId: product.id),
                   );
                 },
                 child: ProductGridTile(

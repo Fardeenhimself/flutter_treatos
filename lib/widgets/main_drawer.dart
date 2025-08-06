@@ -22,9 +22,11 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
   List<Widget> _buildMenuOptions() {
     return [
       _buildDrawerItem(Icons.home, "Home", () {
+        PersistentNavBarNavigator.pop(context);
         PersistentNavBarNavigator.pushNewScreen(context, screen: HomeScreen());
       }),
       _buildDrawerItem(Icons.shopping_bag, "Products", () {
+        PersistentNavBarNavigator.pop(context);
         PersistentNavBarNavigator.pushNewScreen(
           context,
           screen: AllProductsScreen(),
@@ -46,12 +48,12 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
         child: ListTile(
           title: Text(cat.categoryName),
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (ctx) => CategoryProductsScreen(
-                  categoryName: cat.categoryName,
-                  categoryId: cat.id,
-                ),
+            PersistentNavBarNavigator.pop(context);
+            PersistentNavBarNavigator.pushNewScreen(
+              context,
+              screen: CategoryProductsScreen(
+                categoryName: cat.categoryName,
+                categoryId: cat.id,
               ),
             );
           },
