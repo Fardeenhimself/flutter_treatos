@@ -101,4 +101,23 @@ class ApiService {
       throw Exception('Failed to load products for category');
     }
   }
+
+  // Search Products
+  static Future<List<Product>> fetchProducts({
+    required String productName,
+    required String categoryId,
+  }) async {
+    final res = await http.get(
+      Uri.parse(
+        'https://pos.theabacuses.com/api/search?product_name=$productName&category_id=$categoryId',
+      ),
+    );
+    if (res.statusCode == 200) {
+      final Map<String, dynamic> json = jsonDecode(res.body);
+      final List<dynamic> productsData = json['products'];
+      return productsData.map((item) => Product.fromJson(item)).toList();
+    } else {
+      throw Exception('Failed to load products');
+    }
+  }
 }

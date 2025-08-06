@@ -90,3 +90,16 @@ final productsByCategoryProvider = FutureProvider.family<List<Product>, String>(
     return ApiService.fetchProductsByCategory(categoryId);
   },
 );
+
+// For searching products
+final searchProductsProvider =
+    FutureProvider.family<
+      List<Product>,
+      (String productName, String categoryId)
+    >((ref, args) async {
+      final (productName, categoryId) = args;
+      return ApiService.fetchProducts(
+        productName: productName,
+        categoryId: categoryId,
+      );
+    });

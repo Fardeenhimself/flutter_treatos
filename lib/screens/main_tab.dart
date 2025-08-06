@@ -21,7 +21,12 @@ class _MainTabState extends ConsumerState<MainTab> {
 
   List<Widget> _screens() {
     // List of screens to be displayed
-    return [HomeScreen(), SearchScreen(), WishlistScreen(), CartScreen()];
+    return [
+      HomeScreen(),
+      SearchProductsPage(categoryId: ''),
+      WishlistScreen(),
+      CartScreen(),
+    ];
   }
 
   // List of nav bar items
