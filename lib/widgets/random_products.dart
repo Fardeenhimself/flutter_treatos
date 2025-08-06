@@ -203,7 +203,12 @@ class RandomProducts extends ConsumerWidget {
           },
         ),
       ),
-      error: (err, stack) => Center(child: Text('Error: $err')),
+      error: (err, stack) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: Text('Error: Could not load data. Please try again later.'),
+        ),
+      ),
       loading: () => const Center(child: CircularProgressIndicator()),
     );
   }

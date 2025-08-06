@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/widgets/allProductile_widget.dart';
 
-
 class AllProductsScreen extends ConsumerStatefulWidget {
   const AllProductsScreen({super.key});
 
@@ -39,7 +38,14 @@ class _AllProductsScreenState extends ConsumerState<AllProductsScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('All Products')),
       body: products.isEmpty
-          ? const Center(child: CircularProgressIndicator())
+          ? const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Center(
+                child: Text(
+                  'Error: Could not load data. Please try again later.',
+                ),
+              ),
+            )
           : GridView.builder(
               controller: _scrollController,
               padding: const EdgeInsets.all(12),

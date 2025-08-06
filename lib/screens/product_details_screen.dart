@@ -243,7 +243,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
           ),
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, _) => Center(child: Text('Error: $err')),
+        error: (err, _) => Center(child: Text('Error: Could not load data')),
       ),
       floatingActionButton: productDetailAsync.when(
         data: (product) => FloatingActionButton(
