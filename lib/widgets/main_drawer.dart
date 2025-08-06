@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/models/category.dart';
 import 'package:treatos_bd/screens/all_products_screen.dart';
 import 'package:treatos_bd/screens/category_product_screen.dart';
 import 'package:treatos_bd/screens/home_screen.dart';
-import 'package:treatos_bd/screens/main_tab.dart';
 
 class MainDrawer extends ConsumerStatefulWidget {
   const MainDrawer({super.key});
@@ -22,10 +22,13 @@ class _MainDrawerState extends ConsumerState<MainDrawer> {
   List<Widget> _buildMenuOptions() {
     return [
       _buildDrawerItem(Icons.home, "Home", () {
-        // Will take to home screen
+        PersistentNavBarNavigator.pushNewScreen(context, screen: HomeScreen());
       }),
       _buildDrawerItem(Icons.shopping_bag, "Products", () {
-        // Will take to all product screen
+        PersistentNavBarNavigator.pushNewScreen(
+          context,
+          screen: AllProductsScreen(),
+        );
       }),
       _buildDrawerItem(Icons.local_shipping, "Track Order", () {
         // Will take to track order screen

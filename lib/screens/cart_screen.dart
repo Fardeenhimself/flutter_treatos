@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:treatos_bd/models/cart_item.dart';
 import 'package:treatos_bd/providers/cart_provider.dart';
+import 'package:treatos_bd/widgets/main_drawer.dart';
 import 'package:treatos_bd/widgets/reset_cart_dialogue.dart';
 
 // State provider to track selected shipping cost
@@ -25,23 +25,29 @@ class CartScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Your Cart',
+        title: Text(
+          'YOUR CART',
           style: TextStyle(
             letterSpacing: 1,
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
             decoration: TextDecoration.underline,
+            decorationStyle: TextDecorationStyle.dashed,
           ),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.delete, color: Colors.red),
-            onPressed: () {
-              showEmptyCartConfirmationDialog(context, ref);
-            },
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: IconButton(
+              icon: const Icon(Icons.delete, color: Colors.red),
+              onPressed: () {
+                showEmptyCartConfirmationDialog(context, ref);
+              },
+            ),
           ),
         ],
       ),
+      drawer: MainDrawer(),
       body: cartItems.isEmpty
           ? const Center(child: Text('Cart is empty'))
           : Column(

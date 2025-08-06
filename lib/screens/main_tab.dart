@@ -6,7 +6,6 @@ import 'package:treatos_bd/screens/cart_screen.dart';
 import 'package:treatos_bd/screens/home_screen.dart';
 import 'package:treatos_bd/screens/search_screen.dart';
 import 'package:treatos_bd/screens/wishlist_screen.dart';
-import 'package:treatos_bd/widgets/main_drawer.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 class MainTab extends ConsumerStatefulWidget {
@@ -39,18 +38,18 @@ class _MainTabState extends ConsumerState<MainTab> {
     return [
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
-        title: "Home",
+        //title: "Home",
         activeColorPrimary: Colors.deepPurple,
         inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.search),
-        title: "Search",
+        //title: "Search",
         activeColorPrimary: Colors.deepPurple,
         inactiveColorPrimary: Colors.grey,
       ),
       PersistentBottomNavBarItem(
-        title: "Wish List",
+        //title: "Wish List",
         activeColorPrimary: Colors.deepPurple,
         inactiveColorPrimary: Colors.grey,
         icon: Stack(
@@ -86,7 +85,7 @@ class _MainTabState extends ConsumerState<MainTab> {
         ),
       ),
       PersistentBottomNavBarItem(
-        title: "Cart",
+        //title: "Cart",
         activeColorPrimary: Colors.deepPurple,
         inactiveColorPrimary: Colors.grey,
         icon: Stack(
@@ -126,15 +125,11 @@ class _MainTabState extends ConsumerState<MainTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Image.asset('assets/logo.png')),
-      drawer: MainDrawer(),
-      body: PersistentTabView(
-        context,
-        screens: _screens(),
-        items: _navBarItems(),
-        controller: _controller,
-      ),
+    return PersistentTabView(
+      context,
+      screens: _screens(),
+      items: _navBarItems(),
+      controller: _controller,
     );
   }
 }

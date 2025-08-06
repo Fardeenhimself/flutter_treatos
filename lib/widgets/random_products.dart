@@ -4,6 +4,7 @@ import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/providers/cart_provider.dart';
 import 'package:treatos_bd/providers/wishlist_provider.dart';
 import 'package:treatos_bd/screens/product_details_screen.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 class RandomProducts extends ConsumerWidget {
   const RandomProducts({super.key});
@@ -33,11 +34,11 @@ class RandomProducts extends ConsumerWidget {
 
             return GestureDetector(
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (ctx) =>
-                        ProductDetailScreen(productId: product.id),
-                  ),
+                PersistentNavBarNavigator.pushNewScreen(
+                  context,
+                  screen: ProductDetailScreen(productId: product.id),
+                  withNavBar: true,
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
                 );
               },
               child: Container(

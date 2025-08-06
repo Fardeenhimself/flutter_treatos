@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treatos_bd/providers/wishlist_provider.dart';
+import 'package:treatos_bd/widgets/main_drawer.dart';
 import 'package:treatos_bd/widgets/reset_wishlist_dialogue.dart';
 import 'package:treatos_bd/widgets/wishlist_widget.dart';
 
@@ -13,12 +14,14 @@ class WishlistScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'My Wishlist',
+        title: Text(
+          'WISH LIST',
           style: TextStyle(
             letterSpacing: 1,
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
             decoration: TextDecoration.underline,
+            decorationStyle: TextDecorationStyle.dashed,
           ),
         ),
         actions: [
@@ -34,6 +37,8 @@ class WishlistScreen extends ConsumerWidget {
           ),
         ],
       ),
+      drawer: MainDrawer(),
+
       body: wishlistItems.isEmpty
           ? const Center(child: Text('Your wishlist is empty'))
           : ListView.builder(

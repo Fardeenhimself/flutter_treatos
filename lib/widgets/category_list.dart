@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/screens/category_product_screen.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 class CategoryList extends ConsumerWidget {
   const CategoryList({super.key});
@@ -20,13 +21,14 @@ class CategoryList extends ConsumerWidget {
               final category = categories[index];
               return GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (ctx) => CategoryProductsScreen(
-                        categoryId: category.id,
-                        categoryName: category.categoryName,
-                      ),
+                  PersistentNavBarNavigator.pushNewScreen(
+                    context,
+                    screen: CategoryProductsScreen(
+                      categoryName: category.categoryName,
+                      categoryId: category.id,
                     ),
+                    withNavBar: true,
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
                 },
                 child: Container(

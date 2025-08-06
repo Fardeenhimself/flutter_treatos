@@ -3,6 +3,7 @@ import 'package:treatos_bd/screens/all_products_screen.dart';
 import 'package:treatos_bd/widgets/brand_carousel.dart';
 import 'package:treatos_bd/widgets/carousel_bar.dart';
 import 'package:treatos_bd/widgets/category_list.dart';
+import 'package:treatos_bd/widgets/main_drawer.dart';
 import 'package:treatos_bd/widgets/random_products.dart';
 import 'package:treatos_bd/widgets/top_sale_products.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
@@ -13,6 +14,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Image.asset('assets/logo.png')),
+      drawer: MainDrawer(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

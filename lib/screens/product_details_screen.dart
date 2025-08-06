@@ -4,6 +4,7 @@ import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/providers/cart_provider.dart';
 import 'package:treatos_bd/providers/wishlist_provider.dart';
 
+
 class ProductDetailScreen extends ConsumerStatefulWidget {
   final String productId;
 
@@ -157,7 +158,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                             fontSize: 16,
                             inherit: true,
                             color: Colors
-                                .white, // 👈 fixes the interpolation crash
+                                .white, 
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
