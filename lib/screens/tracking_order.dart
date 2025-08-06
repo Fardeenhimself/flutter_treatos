@@ -128,7 +128,7 @@ class _TrackOrderScreenState extends ConsumerState<TrackOrderScreen> {
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, _) => Center(
                   child: Text(
-                    'Error: ${error.toString()}',
+                    'Data not found!',
                     style: const TextStyle(color: Colors.red),
                   ),
                 ),

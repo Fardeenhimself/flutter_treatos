@@ -141,38 +141,28 @@ class ApiService {
 
   // For tracking order
   static Future<List<Order>> trackOrder(String phone) async {
-    try {
-      print('Tracking order for phone: $phone');
+    final response = await http.get(
+      Uri.parse('https://pos.theabacuses.com/api/track/phone?phone=$phone'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
 
-      final uri = Uri.parse(
-        'https://pos.theabacuses.com/api/track/phone',
-      ).replace(queryParameters: {'phone': phone});
+    if (response.statusCode == 200) {
+      final json = jsonDecode(response.body);
 
-      final response = await http.get(
-        uri,
-        headers: {'Accept': 'application/json'},
-      );
-
-      print('Track order response status: ${response.statusCode}');
-      print('Track order response body: ${response.body}');
-
-      if (response.statusCode == 200) {
-        final json = jsonDecode(response.body);
-        final ordersJson = json['orders'] as List<dynamic>;
-
-        return ordersJson
-            .map((orderJson) => Order.fromJson(orderJson))
-            .toList();
+      if (json['success'] == true) {
+        final List ordersJson = json['data'] as List;
+        return ordersJson.map((e) => Order.fromJson(e)).toList();
       } else {
-        throw Exception(
-          'Failed to track order. Status: ${response.statusCode}, '
-          'Response: ${response.body}',
-        );
+        throw Exception(json['message'] ?? 'Unknown error occurred');
       }
-    } catch (e, stackTrace) {
-      print('Error tracking order: $e');
-      print('Stack trace: $stackTrace');
-      rethrow;
+    } else {
+      throw Exception(
+        'Failed to track order. Status: ${response.statusCode}, '
+        'Response: ${response.body}',
+      );
     }
   }
 }
