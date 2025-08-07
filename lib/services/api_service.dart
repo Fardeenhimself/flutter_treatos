@@ -155,7 +155,7 @@ class ApiService {
         final orders = ordersJson.map((e) {
           try {
             return Order.fromJson(e);
-          } catch (e, stack) {
+          } catch (e) {
             rethrow;
           }
         }).toList();
