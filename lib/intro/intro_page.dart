@@ -99,7 +99,11 @@ class _IntroPageState extends State<IntroPage>
                 Text(
                   "Your one stop shop for all pet items and accessories",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey[700],
+                    fontFamily: 'Playwrite',
+                  ),
                 ),
 
                 const SizedBox(height: 40),
