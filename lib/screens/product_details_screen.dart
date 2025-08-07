@@ -249,7 +249,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
         data: (product) => FloatingActionButton(
           onPressed: () {
             sendMessageToWhatsApp(
-              phoneNumber: '8801711379218',
+              phoneNumber: '8801324741192',
               productName: product.productName,
               productId: product.id.toString(),
             );
