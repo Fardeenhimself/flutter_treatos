@@ -33,6 +33,7 @@ class _TrackOrderScreenState extends ConsumerState<TrackOrderScreen> {
             Form(
               key: _formKey,
               child: TextFormField(
+                maxLength: 11,
                 controller: _phoneController,
                 decoration: const InputDecoration(
                   labelText: 'Phone Number',
@@ -153,7 +154,13 @@ class _TrackOrderScreenState extends ConsumerState<TrackOrderScreen> {
               color: Colors.grey,
             ),
           ),
-          Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
+          Text(
+            value,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.red,
+            ),
+          ),
         ],
       ),
     );
