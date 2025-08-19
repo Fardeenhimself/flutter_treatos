@@ -8,7 +8,7 @@ class ApiService {
   // List of categories
   static Future<List<Category>> fetchCategories() async {
     final res = await http.get(
-      Uri.parse('https://pos.theabacuses.com/api/category'),
+      Uri.parse('Y O U R  A P I  K E Y'),
     );
     if (res.statusCode == 200) {
       final Map<String, dynamic> json = jsonDecode(res.body);
@@ -27,7 +27,7 @@ class ApiService {
   }) async {
     final res = await http.get(
       Uri.parse(
-        'https://pos.theabacuses.com/api/product?page=$page&limit=$limit',
+        'Y O U R  A P I  K E Y',
       ),
     );
     if (res.statusCode == 200) {
@@ -43,7 +43,7 @@ class ApiService {
   // List of Random products
   static Future<List<Product>> fetchRandomProducts() async {
     final res = await http.get(
-      Uri.parse('https://pos.theabacuses.com/api/random-products'),
+      Uri.parse('Y O U R  A P I  K E Y'),
     );
     if (res.statusCode == 200) {
       final Map<String, dynamic> json = jsonDecode(res.body);
@@ -58,7 +58,7 @@ class ApiService {
   // List of Top Rated Products
   static Future<List<Product>> fetchTopSaleProducs() async {
     final res = await http.get(
-      Uri.parse('https://pos.theabacuses.com/api/top-sale-products'),
+      Uri.parse('Y O U R  A P I  K E Y'),
     );
 
     if (res.statusCode == 200) {
@@ -74,7 +74,7 @@ class ApiService {
   // Product Detail
   static Future<Product> fetchProductDetails(String productId) async {
     final response = await http.get(
-      Uri.parse('https://pos.theabacuses.com/api/product/view/$productId'),
+      Uri.parse('Y O U R  A P I  K E Y'),
     );
 
     if (response.statusCode == 200) {
@@ -91,7 +91,7 @@ class ApiService {
   ) async {
     final res = await http.get(
       Uri.parse(
-        'https://pos.theabacuses.com/api/search?product_name=&category_id=$categoryId',
+        'Y O U R  A P I  K E Y',
       ),
     );
     if (res.statusCode == 200) {
@@ -110,7 +110,7 @@ class ApiService {
   }) async {
     final res = await http.get(
       Uri.parse(
-        'https://pos.theabacuses.com/api/search?product_name=$productName&category_id=$categoryId',
+        'Y O U R  A P I  K E Y',
       ),
     );
     if (res.statusCode == 200) {
@@ -125,7 +125,7 @@ class ApiService {
   // For placing order
   static Future<Map<String, dynamic>> placeOrder(Order order) async {
     final response = await http.post(
-      Uri.parse('https://pos.theabacuses.com/api/checkout'),
+      Uri.parse('Y O U R  A P I  K E Y'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(order.toJson()),
     );
@@ -142,7 +142,7 @@ class ApiService {
   // For tracking order
   static Future<List<Order>> trackOrder(String phone) async {
     final response = await http.get(
-      Uri.parse('https://pos.theabacuses.com/api/track/phone?phone=$phone'),
+      Uri.parse('Y O U R  A P I  K E Y'),
       headers: {'Accept': 'application/json'},
     );
 
