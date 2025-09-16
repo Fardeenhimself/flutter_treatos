@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Poppins'),
+      debugShowCheckedModeBanner: false,
       title: 'Treatos BD',
       home: IntroPage(),
     );

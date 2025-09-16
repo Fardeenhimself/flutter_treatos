@@ -43,18 +43,20 @@ class _MainTabState extends ConsumerState<MainTab> {
     return [
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
-        //title: "Home",
+        title: "Home",
         activeColorPrimary: Colors.deepPurple,
         inactiveColorPrimary: Colors.grey,
+        inactiveIcon: Icon(Icons.home_outlined),
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.search),
-        //title: "Search",
+        title: "Search",
         activeColorPrimary: Colors.deepPurple,
         inactiveColorPrimary: Colors.grey,
+        inactiveIcon: Icon(Icons.search_outlined),
       ),
       PersistentBottomNavBarItem(
-        //title: "Wish List",
+        title: "Wish List",
         activeColorPrimary: Colors.deepPurple,
         inactiveColorPrimary: Colors.grey,
         icon: Stack(
@@ -88,9 +90,10 @@ class _MainTabState extends ConsumerState<MainTab> {
               ),
           ],
         ),
+        inactiveIcon: Icon(Icons.favorite_outline),
       ),
       PersistentBottomNavBarItem(
-        //title: "Cart",
+        title: "Cart",
         activeColorPrimary: Colors.deepPurple,
         inactiveColorPrimary: Colors.grey,
         icon: Stack(
@@ -124,6 +127,7 @@ class _MainTabState extends ConsumerState<MainTab> {
               ),
           ],
         ),
+        inactiveIcon: Icon(Icons.shopping_cart_outlined),
       ),
     ];
   }
@@ -135,6 +139,7 @@ class _MainTabState extends ConsumerState<MainTab> {
       screens: _screens(),
       items: _navBarItems(),
       controller: _controller,
+
     );
   }
 }

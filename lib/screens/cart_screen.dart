@@ -26,24 +26,24 @@ class CartScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'YOUR CART',
+          'C A R T',
           style: TextStyle(
-            letterSpacing: 1,
             fontSize: 25,
             fontWeight: FontWeight.bold,
-            decoration: TextDecoration.underline,
-            decorationStyle: TextDecorationStyle.dashed,
           ),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: () {
-                showEmptyCartConfirmationDialog(context, ref);
-              },
-            ),
+          IconButton(
+            icon: CircleAvatar(
+                radius: 25,
+                backgroundColor: Colors.grey.shade200,
+                child: Icon(Icons.delete, size: 30, color: Colors.red,)),
+            onPressed: () {
+              if(cartItems.isEmpty){
+                return;
+              }
+              showEmptyCartConfirmationDialog(context, ref);
+            },
           ),
         ],
       ),

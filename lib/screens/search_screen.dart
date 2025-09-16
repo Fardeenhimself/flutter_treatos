@@ -30,7 +30,15 @@ class _SearchProductsPageState extends ConsumerState<SearchProductsPage> {
     );
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Search Products')),
+      appBar: AppBar(
+        title: const Text(
+          'S E A R C H',
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
       drawer: MainDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -79,7 +87,11 @@ class _SearchProductsPageState extends ConsumerState<SearchProductsPage> {
                         },
                       ),
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (err, _) => Center(child: Text('Error: $err')),
+                error: (err, _) => Center(
+                  child: Text(
+                    'Error: Check your internet connection or try again later',
+                  ),
+                ),
               ),
             ),
           ],

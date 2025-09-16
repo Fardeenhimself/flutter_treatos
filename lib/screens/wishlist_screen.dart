@@ -15,13 +15,10 @@ class WishlistScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'WISH LIST',
+          'W I S H  L I S T',
           style: TextStyle(
-            letterSpacing: 1,
             fontSize: 25,
             fontWeight: FontWeight.bold,
-            decoration: TextDecoration.underline,
-            decorationStyle: TextDecorationStyle.dashed,
           ),
         ),
         actions: [
@@ -33,7 +30,10 @@ class WishlistScreen extends ConsumerWidget {
               }
               showEmptyWishlistConfirmationDialog(context, ref);
             },
-            icon: Icon(Icons.delete),
+            icon: CircleAvatar(
+                radius: 25,
+                backgroundColor: Colors.grey.shade200,
+                child: Icon(Icons.delete, size: 30, color: Colors.red,)),
           ),
         ],
       ),

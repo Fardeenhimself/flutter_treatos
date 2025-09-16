@@ -16,64 +16,64 @@ class CarouselBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(2),
-        child: CarouselSlider(
-          items: bannerImage.map((imagePath) {
-            return Stack(
-              children: [
-                Image.asset(
+      child: CarouselSlider(
+        items: bannerImage.map((imagePath) {
+          return Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(
                   imagePath,
                   fit: BoxFit.cover,
                   width: double.infinity,
                 ),
-                Positioned(
-                  bottom: 10,
-                  right: 10,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.purple,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 12,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+              ),
+              Positioned(
+                bottom: 10,
+                right: 10,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purple,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
                     ),
-                    onPressed: () {
-                      PersistentNavBarNavigator.pushNewScreen(
-                        context,
-                        screen: AllProductsScreen(),
-                        withNavBar: true,
-                      );
-                    },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          'Shop now',
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        ),
-                        const SizedBox(width: 6),
-                        FaIcon(
-                          FontAwesomeIcons.arrowRight,
-                          color: Colors.white,
-                        ),
-                      ],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
+                  onPressed: () {
+                    PersistentNavBarNavigator.pushNewScreen(
+                      context,
+                      screen: AllProductsScreen(),
+                      withNavBar: true,
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        'Shop now',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                      const SizedBox(width: 6),
+                      FaIcon(
+                        FontAwesomeIcons.arrowRight,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            );
-          }).toList(),
-          options: CarouselOptions(
-            height: 180,
-            autoPlay: true,
-            autoPlayInterval: Duration(seconds: 5),
-            enlargeCenterPage: true,
-            viewportFraction: 0.9,
-          ),
+              ),
+            ],
+          );
+        }).toList(),
+        options: CarouselOptions(
+          height: 180,
+          autoPlay: true,
+          autoPlayInterval: Duration(seconds: 5),
+          enlargeCenterPage: true,
+          viewportFraction: 0.9,
         ),
       ),
     );
