@@ -9,7 +9,7 @@ class OrderStatusPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -24,10 +24,9 @@ class OrderStatusPage extends StatelessWidget {
               const SizedBox(height: 24),
               Text(
                 isSuccess ? 'Order Placed Successfully!' : 'Order Failed!',
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.w500,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -37,7 +36,9 @@ class OrderStatusPage extends StatelessWidget {
                     (isSuccess
                         ? 'Thank you for your purchase. You can track your order from the tracking page.'
                         : 'There was a problem placing your order. Please try again.'),
-                style: const TextStyle(fontSize: 16, color: Colors.black54),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
@@ -45,15 +46,12 @@ class OrderStatusPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.popUntil(context, (route) => route.isFirst);
                 },
-                icon: Icon(Icons.home),
-                label: Text('Back to Home'),
+                icon: Icon(Icons.arrow_back),
+                label: Text('Go Back'),
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 32,
-                    vertical: 14,
-                  ),
-                  backgroundColor: Colors.purple,
-                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),

@@ -33,11 +33,8 @@ class CarouselBar extends StatelessWidget {
                 right: 10,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purple,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 12,
-                    ),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -52,14 +49,17 @@ class CarouselBar extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text(
+                      Text(
                         'Shop now',
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                      const SizedBox(width: 6),
+                      SizedBox(width: 6),
                       FaIcon(
-                        FontAwesomeIcons.arrowRight,
-                        color: Colors.white,
+                        FontAwesomeIcons.cartShopping,
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ],
                   ),

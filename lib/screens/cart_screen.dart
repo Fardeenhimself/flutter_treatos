@@ -26,20 +26,18 @@ class CartScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'C A R T',
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
+          'CART',
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
         actions: [
           IconButton(
             icon: CircleAvatar(
-                radius: 25,
-                backgroundColor: Colors.grey.shade200,
-                child: Icon(Icons.delete, size: 30, color: Colors.red,)),
+              radius: 25,
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              child: Icon(Icons.delete, size: 30, color: Colors.red),
+            ),
             onPressed: () {
-              if(cartItems.isEmpty){
+              if (cartItems.isEmpty) {
                 return;
               }
               showEmptyCartConfirmationDialog(context, ref);
@@ -49,7 +47,14 @@ class CartScreen extends ConsumerWidget {
       ),
       drawer: MainDrawer(),
       body: cartItems.isEmpty
-          ? const Center(child: Text('Cart is empty'))
+          ? Center(
+              child: Text(
+                'Cart is empty',
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+            )
           : Column(
               children: [
                 Expanded(
@@ -62,7 +67,7 @@ class CartScreen extends ConsumerWidget {
                         margin: const EdgeInsets.symmetric(vertical: 8),
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.surface,
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: const [
                             BoxShadow(
@@ -103,26 +108,41 @@ class CartScreen extends ConsumerWidget {
                                 children: [
                                   Text(
                                     item.productName.toUpperCase(),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onSurface,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   const SizedBox(height: 6),
                                   Text(
                                     '৳${item.salePrice} x ${item.quantity}',
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.purple,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge!
+                                        .copyWith(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                   ),
                                   const SizedBox(height: 6),
                                   Row(
                                     children: [
                                       IconButton(
-                                        icon: const Icon(Icons.remove),
+                                        icon: Icon(
+                                          Icons.remove,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
+                                        ),
                                         onPressed: () {
                                           ref
                                               .read(cartProvider.notifier)
@@ -134,10 +154,23 @@ class CartScreen extends ConsumerWidget {
                                       ),
                                       Text(
                                         '${item.quantity}',
-                                        style: const TextStyle(fontSize: 16),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge!
+                                            .copyWith(
+                                              color: Theme.of(
+                                                context,
+                                              ).colorScheme.primary,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                       ),
                                       IconButton(
-                                        icon: const Icon(Icons.add),
+                                        icon: Icon(
+                                          Icons.add,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
+                                        ),
                                         onPressed: () {
                                           ref
                                               .read(cartProvider.notifier)
@@ -150,9 +183,15 @@ class CartScreen extends ConsumerWidget {
                                       const Spacer(),
                                       Text(
                                         '৳${(double.parse(item.salePrice) * item.quantity).toStringAsFixed(2)}',
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge!
+                                            .copyWith(
+                                              color: Theme.of(
+                                                context,
+                                              ).colorScheme.onSurface,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                       ),
                                     ],
                                   ),
@@ -160,9 +199,15 @@ class CartScreen extends ConsumerWidget {
                               ),
                             ),
                             IconButton(
-                              icon: const Icon(
-                                Icons.delete_outline,
-                                color: Colors.red,
+                              icon: CircleAvatar(
+                                radius: 20,
+                                backgroundColor: Theme.of(
+                                  context,
+                                ).colorScheme.primaryContainer,
+                                child: const Icon(
+                                  Icons.delete_outline,
+                                  color: Colors.red,
+                                ),
                               ),
                               onPressed: () {
                                 ref
@@ -185,7 +230,7 @@ class CartScreen extends ConsumerWidget {
                   ),
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.purple.shade50,
+                    color: Theme.of(context).colorScheme.primaryContainer,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Column(
@@ -194,33 +239,38 @@ class CartScreen extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             'Subtotal:',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.underline,
-                            ),
+                            style: Theme.of(context).textTheme.titleMedium!
+                                .copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline,
+                                ),
                           ),
                           Text(
                             '৳${subtotal.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.purple,
-                            ),
+                            style: Theme.of(context).textTheme.titleMedium!
+                                .copyWith(
+                                  color: Theme.of(context).colorScheme.error,
+                                  fontWeight: FontWeight.w600,
+                                ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 12),
 
                       // Shipping label
-                      const Text(
+                      Text(
                         'Shipping:',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium!
+                            .copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                            ),
                       ),
 
                       // Shipping options
@@ -235,7 +285,15 @@ class CartScreen extends ConsumerWidget {
                                   'Inside Khulna';
                             },
                           ),
-                          const Text('Inside Khulna (৳40.00)'),
+                          Text(
+                            'Inside Khulna (৳40.00)',
+                            style: Theme.of(context).textTheme.labelLarge!
+                                .copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
+                                ),
+                          ),
                         ],
                       ),
                       Row(
@@ -249,7 +307,15 @@ class CartScreen extends ConsumerWidget {
                                   'Outside Khulna';
                             },
                           ),
-                          const Text('Outside Khulna (৳120.00)'),
+                          Text(
+                            'Outside Khulna (৳120.00)',
+                            style: Theme.of(context).textTheme.labelLarge!
+                                .copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
+                                ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 12),
@@ -258,19 +324,23 @@ class CartScreen extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             'Total:',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.titleLarge!
+                                .copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
+                                  fontWeight: FontWeight.bold,
+                                ),
                           ),
                           Text(
                             '৳${total.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.titleLarge!
+                                .copyWith(
+                                  color: Theme.of(context).colorScheme.error,
+                                  fontWeight: FontWeight.bold,
+                                ),
                           ),
                         ],
                       ),
@@ -310,16 +380,16 @@ class CartScreen extends ConsumerWidget {
                               screen: CheckoutPage(),
                             );
                           },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.shopping_cart_checkout,
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.surface,
+                      size: 25,
                     ),
-                    label: const Text(
+                    label: Text(
                       'Check Out',
-                      style: TextStyle(
-                        fontSize: 18,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: Theme.of(context).colorScheme.surface,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
@@ -327,7 +397,7 @@ class CartScreen extends ConsumerWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      backgroundColor: Colors.purple,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                 ),

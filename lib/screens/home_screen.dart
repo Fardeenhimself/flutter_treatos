@@ -14,7 +14,15 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Image.asset('assets/logo.png')),
+      appBar: AppBar(
+        title: Row(
+          children: [
+            Text('TREATOS'),
+            const SizedBox(width: 5),
+            Text('BD', style: TextStyle(color: Colors.purpleAccent)),
+          ],
+        ),
+      ),
       drawer: MainDrawer(),
       body: SingleChildScrollView(
         child: Column(
@@ -30,7 +38,10 @@ class HomeScreen extends StatelessWidget {
               child: Text(
                 'Categories',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const Divider(indent: 30, endIndent: 30, thickness: 2),
@@ -44,7 +55,10 @@ class HomeScreen extends StatelessWidget {
               child: Text(
                 'Top Selling Products',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const Divider(indent: 30, endIndent: 30, thickness: 2),
@@ -62,7 +76,10 @@ class HomeScreen extends StatelessWidget {
               child: Text(
                 'Recommendations For You',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const Divider(indent: 30, endIndent: 30, thickness: 2),
@@ -82,8 +99,6 @@ class HomeScreen extends StatelessWidget {
                       context,
                       screen: AllProductsScreen(),
                       withNavBar: true,
-                      pageTransitionAnimation:
-                          PageTransitionAnimation.cupertino,
                     );
                   },
                   child: Row(
@@ -91,13 +106,18 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       Text(
                         'View All Products',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium!
+                            .copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                       const SizedBox(width: 4),
-                      Icon(Icons.arrow_right_alt, size: 25),
+                      Icon(
+                        Icons.shopping_bag_outlined,
+                        size: 25,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ],
                   ),
                 ),

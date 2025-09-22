@@ -50,15 +50,21 @@ class CategoryProductsScreen extends ConsumerWidget {
                 },
                 child: ProductGridTile(
                   product: product,
-                  image: product.productImage,
+                  image: product.productImage!,
                 ),
               );
             },
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) =>
-            Center(child: Text('Error: Could not load data')),
+        error: (error, stack) => Center(
+          child: Text(
+            'Something went wrong. Check your Internet connection or try again later',
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: Theme.of(context).colorScheme.error,
+            ),
+          ),
+        ),
       ),
     );
   }

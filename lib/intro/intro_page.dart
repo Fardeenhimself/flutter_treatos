@@ -64,28 +64,25 @@ class _IntroPageState extends State<IntroPage>
                 Text.rich(
                   TextSpan(
                     children: [
-                      const TextSpan(
+                      TextSpan(
                         text: 'Welcome to ',
-                        style: TextStyle(
-                          fontSize: 24,
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
                         ),
                       ),
-                      const TextSpan(
+                      TextSpan(
                         text: 'Treatos ',
-                        style: TextStyle(
-                          fontSize: 24,
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
                         ),
                       ),
                       TextSpan(
                         text: 'BD',
-                        style: TextStyle(
-                          fontSize: 24,
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: Colors.purpleAccent,
                           fontWeight: FontWeight.bold,
-                          color: Colors.purple,
                         ),
                       ),
                     ],
@@ -99,10 +96,8 @@ class _IntroPageState extends State<IntroPage>
                 Text(
                   "Your one stop shop for all pet items and accessories",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey[700],
-                    fontFamily: 'Playwrite',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
 

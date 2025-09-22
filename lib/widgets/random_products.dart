@@ -43,160 +43,182 @@ class RandomProducts extends ConsumerWidget {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade300),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                   borderRadius: BorderRadius.circular(12),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.primaryContainer.withAlpha(10),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(12),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Stack(
+                          children: [
+                            Center(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: FadeInImage.assetNetwork(
+                                  placeholder: 'assets/fallback.png',
+                                  image: imageUrl!,
+                                  fit: BoxFit.contain,
+                                  imageErrorBuilder:
+                                      (context, error, stackTrace) {
+                                        return Image.asset(
+                                          'assets/fallback.png',
+                                          fit: BoxFit.contain,
+                                        );
+                                      },
+                                ),
+                              ),
                             ),
-                            child: imageUrl.isNotEmpty
-                                ? Image.network(
-                                    product.productImage,
-                                    height: 200,
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return const Icon(
-                                        Icons.image_not_supported,
-                                        size: 100,
-                                        color: Colors.grey,
-                                      );
-                                    },
-                                  )
-                                : Image.asset(
-                                    'assets/fallback.png', // Fallback if image is empty
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
+                            // NEW Banner
+                            Positioned(
+                              top: 3,
+                              right: 2,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 5,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  'NEW',
+                                  style: TextStyle(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onPrimary,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                          ),
-
-                          // NEW Banner
-                          Positioned(
-                            top: 8,
-                            left: 8,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 5,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.purple,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: const Text(
-                                'NEW',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Column(
-                        children: [
-                          Text(
-                            product.productName.toUpperCase(),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                      const SizedBox(height: 4),
+                      Text(
+                        product.productName.toUpperCase(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleMedium!
+                            .copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
                               fontWeight: FontWeight.bold,
-                              fontSize: 16,
                             ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            '৳${product.salePrice}',
-                            style: const TextStyle(
-                              color: Colors.purple,
-                              fontSize: 14,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                tooltip: 'Add to wishlist',
-                                onPressed: () {
-                                  final wishlistNotifier = ref.read(
-                                    wishlistProvider.notifier,
-                                  );
-                                  final isInWishlist = wishlistNotifier
-                                      .isInWishlist(product.id);
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        product.discountPrice == null
+                            ? '৳ ${product.salePrice}'
+                            : '৳ ${product.discountPrice}',
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
 
-                                  ScaffoldMessenger.of(
-                                    context,
-                                  ).clearSnackBars();
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            tooltip: 'Add to wishlist',
+                            onPressed: () {
+                              final wishlistNotifier = ref.read(
+                                wishlistProvider.notifier,
+                              );
+                              final isInWishlist = wishlistNotifier
+                                  .isInWishlist(product.id);
 
-                                  if (isInWishlist) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          '${product.productName} is already in your wishlist.',
-                                        ),
-                                        duration: const Duration(seconds: 2),
-                                      ),
-                                    );
-                                  } else {
-                                    wishlistNotifier.addToWishlist(product);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          '${product.productName} added to wishlist!',
-                                        ),
-                                        duration: const Duration(seconds: 1),
-                                      ),
-                                    );
-                                  }
-                                },
-                                icon: Icon(
-                                  isInWishlist
-                                      ? Icons.favorite
-                                      : Icons.favorite_border_outlined,
-                                ),
-                                iconSize: 20,
-                              ),
-                              const SizedBox(width: 10),
-                              IconButton(
-                                tooltip: 'Add to cart',
-                                onPressed: () {
-                                  ref
-                                      .read(cartProvider.notifier)
-                                      .addToCart(product);
-                                  ScaffoldMessenger.of(
-                                    context,
-                                  ).clearSnackBars();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        '${product.productName} added to cart!',
-                                      ),
-                                      duration: Duration(seconds: 1),
+                              ScaffoldMessenger.of(context).clearSnackBars();
+
+                              if (isInWishlist) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      '${product.productName} is already in your wishlist.',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge!
+                                          .copyWith(
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.surface,
+                                          ),
                                     ),
-                                  );
-                                },
-                                icon: Icon(Icons.shopping_cart_outlined),
-                                iconSize: 20,
-                              ),
-                            ],
+                                    duration: const Duration(seconds: 3),
+                                  ),
+                                );
+                              } else {
+                                wishlistNotifier.addToWishlist(product);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      '${product.productName} added to wishlist!',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge!
+                                          .copyWith(
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.surface,
+                                          ),
+                                    ),
+                                    duration: const Duration(seconds: 3),
+                                  ),
+                                );
+                              }
+                            },
+                            icon: Icon(
+                              isInWishlist
+                                  ? Icons.favorite
+                                  : Icons.favorite_border_outlined,
+                            ),
+                            iconSize: 30,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          const SizedBox(width: 10),
+                          IconButton(
+                            tooltip: 'Add to cart',
+                            onPressed: () {
+                              ref
+                                  .read(cartProvider.notifier)
+                                  .addToCart(product);
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    '${product.productName} added to cart!',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge!
+                                        .copyWith(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.surface,
+                                        ),
+                                  ),
+                                  duration: Duration(seconds: 3),
+                                ),
+                              );
+                            },
+                            icon: Icon(Icons.shopping_cart_outlined),
+                            iconSize: 30,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
@@ -204,9 +226,15 @@ class RandomProducts extends ConsumerWidget {
         ),
       ),
       error: (err, stack) => Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(10.0),
         child: Center(
-          child: Text('Error: Could not load data. Please try again later.'),
+          child: Text(
+            'Something went wrong.\nCheck your Internet connection or try again later',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: Theme.of(context).colorScheme.error,
+            ),
+          ),
         ),
       ),
       loading: () => const Center(child: CircularProgressIndicator()),

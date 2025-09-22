@@ -20,7 +20,6 @@ class ProductGridTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final wishlist = ref.watch(wishlistProvider);
     final isInWishlist = wishlist.any((item) => item.id == product.id);
-
     return GestureDetector(
       onTap: () {
         PersistentNavBarNavigator.pushNewScreen(
@@ -32,134 +31,138 @@ class ProductGridTile extends ConsumerWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade300),
+          border: Border.all(color: Theme.of(context).colorScheme.primary),
           borderRadius: BorderRadius.circular(12),
+          color: Theme.of(context).colorScheme.primaryContainer.withAlpha(10),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(12),
-                ),
-                child: image.isNotEmpty
-                    ? Image.network(
-                        image,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Image.asset(
-                            'assets/fallback.png',
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                          );
-                        },
-                      )
-                    : Image.asset(
-                        'assets/fallback.png',
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                      ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                children: [
-                  Text(
-                    product.productName.toUpperCase(),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/fallback.png',
+                      image: product.productImage!,
+                      fit: BoxFit.contain,
+                      imageErrorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          'assets/fallback.png',
+                          fit: BoxFit.contain,
+                        );
+                      },
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '৳${product.salePrice}',
-                    style: const TextStyle(color: Colors.purple, fontSize: 14),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                product.productName.toUpperCase(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                product.discountPrice == null
+                    ? '৳ ${product.salePrice}'
+                    : '৳ ${product.discountPrice}',
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 4),
+              // Icon buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    tooltip: 'Add to wishlist',
+                    onPressed: () {
+                      final wishlistNotifier = ref.read(
+                        wishlistProvider.notifier,
+                      );
+                      final isInWishlist = wishlistNotifier.isInWishlist(
+                        product.id,
+                      );
+
+                      ScaffoldMessenger.of(context).clearSnackBars();
+
+                      if (isInWishlist) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              '${product.productName} is already in your wishlist.',
+                              style: Theme.of(context).textTheme.labelLarge!
+                                  .copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.surface,
+                                  ),
+                            ),
+                            duration: const Duration(seconds: 3),
+                          ),
+                        );
+                      } else {
+                        wishlistNotifier.addToWishlist(product);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              '${product.productName} added to wishlist!',
+                              style: Theme.of(context).textTheme.labelLarge!
+                                  .copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.surface,
+                                  ),
+                            ),
+                            duration: const Duration(seconds: 3),
+                          ),
+                        );
+                      }
+                    },
+                    icon: Icon(
+                      isInWishlist
+                          ? Icons.favorite
+                          : Icons.favorite_border_outlined,
+                    ),
+                    iconSize: 30,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
-                  const SizedBox(height: 4),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        tooltip: 'Add to wishlist',
-                        onPressed: () {
-                          final wishlistNotifier = ref.read(
-                            wishlistProvider.notifier,
-                          );
-                          final isInWishlist = wishlistNotifier.isInWishlist(
-                            product.id,
-                          );
-
-                          ScaffoldMessenger.of(context).clearSnackBars();
-
-                          if (isInWishlist) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  '${product.productName} is already in your wishlist.',
+                  const SizedBox(width: 10),
+                  IconButton(
+                    tooltip: 'Add to cart',
+                    onPressed: () {
+                      ref.read(cartProvider.notifier).addToCart(product);
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            '${product.productName} added to cart!',
+                            style: Theme.of(context).textTheme.labelLarge!
+                                .copyWith(
+                                  color: Theme.of(context).colorScheme.surface,
                                 ),
-                                duration: const Duration(seconds: 2),
-                              ),
-                            );
-                          } else {
-                            wishlistNotifier.addToWishlist(product);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  '${product.productName} added to wishlist!',
-                                ),
-                                duration: const Duration(seconds: 1),
-                              ),
-                            );
-                          }
-                        },
-                        icon: Icon(
-                          isInWishlist
-                              ? Icons.favorite
-                              : Icons.favorite_border_outlined,
+                          ),
+                          duration: Duration(seconds: 3),
                         ),
-                        iconSize: 20,
-                      ),
-                      const SizedBox(width: 10),
-                      IconButton(
-                        tooltip: 'Add to cart',
-                        onPressed: () {
-                          if (product.quantity == '0.00') {
-                            ScaffoldMessenger.of(context).clearSnackBars();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                duration: Duration(seconds: 5),
-                                content: Text(
-                                  'Product not currently available',
-                                ),
-                              ),
-                            );
-                          } else {
-                            ref.read(cartProvider.notifier).addToCart(product);
-                            ScaffoldMessenger.of(context).clearSnackBars();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Added ${product.productName} to Cart',
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                        icon: const Icon(Icons.shopping_cart_outlined),
-                        iconSize: 20,
-                      ),
-                    ],
+                      );
+                    },
+                    icon: Icon(Icons.shopping_cart_outlined),
+                    iconSize: 30,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

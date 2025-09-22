@@ -32,11 +32,8 @@ class _SearchProductsPageState extends ConsumerState<SearchProductsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'S E A R C H',
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
+          'SEARCH',
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
       ),
       drawer: MainDrawer(),
@@ -45,6 +42,7 @@ class _SearchProductsPageState extends ConsumerState<SearchProductsPage> {
         child: Column(
           children: [
             TextField(
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: 'Search products...',
@@ -60,36 +58,73 @@ class _SearchProductsPageState extends ConsumerState<SearchProductsPage> {
             const SizedBox(height: 16),
             Expanded(
               child: productsAsync.when(
-                data: (products) => products.isEmpty
-                    ? const Center(child: Text('No products found.'))
-                    : ListView.builder(
-                        itemCount: products.length,
-                        itemBuilder: (context, index) {
-                          final product = products[index];
-                          return GestureDetector(
-                            onTap: () {
-                              PersistentNavBarNavigator.pushNewScreen(
-                                context,
-                                screen: ProductDetailScreen(
-                                  productId: product.id,
-                                ),
-                              );
-                            },
-                            child: ListTile(
-                              leading: Image.network(
-                                product.productImage,
-                                width: 50,
-                              ),
-                              title: Text(product.productName),
-                              subtitle: Text('৳${product.salePrice}'),
-                            ),
+                data: (products) {
+                  if (_searchController.text.trim().isEmpty) {
+                    return Center(
+                      child: Text(
+                        'Items will appear here',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                    );
+                  } else if (products.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'No items found for your search',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                      ),
+                    );
+                  }
+
+                  // Matches found
+                  return ListView.builder(
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      final product = products[index];
+                      return GestureDetector(
+                        onTap: () {
+                          PersistentNavBarNavigator.pushNewScreen(
+                            context,
+                            screen: ProductDetailScreen(productId: product.id),
                           );
                         },
-                      ),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            radius: 30,
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.onPrimary,
+                            child: Image.network(
+                              product.productImage!,
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stack) =>
+                                  const Icon(
+                                    Icons.image_not_supported,
+                                    size: 30,
+                                  ),
+                            ),
+                          ),
+                          title: Text(product.productName),
+                          subtitle: Text('৳${product.salePrice}'),
+                        ),
+                      );
+                    },
+                  );
+                },
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (err, _) => Center(
-                  child: Text(
-                    'Error: Check your internet connection or try again later',
+                error: (err, _) => Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Center(
+                    child: Text(
+                      'Something went wrong.\nCheck your Internet connection or try again later',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    ),
                   ),
                 ),
               ),

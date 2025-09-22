@@ -4,7 +4,7 @@ class Product {
   final String salePrice;
   final String? discountPrice;
   final String? categoryName;
-  final String productImage;
+  final String? productImage;
   final String? quantity;
   final String? totalSold;
   final String? categoryId;
@@ -16,7 +16,7 @@ class Product {
     required this.salePrice,
     this.discountPrice, // might be null
     this.categoryName,
-    required this.productImage,
+    this.productImage,
     this.quantity,
     this.totalSold, // only for top-sale-products
     this.categoryId,

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treatos_bd/models/order.dart';
 import 'package:treatos_bd/providers/api_provider.dart';
 import 'package:treatos_bd/providers/cart_provider.dart';
 import 'package:treatos_bd/screens/order_completion_screen.dart';
-import 'package:treatos_bd/screens/cart_screen.dart';
-import 'package:treatos_bd/providers/api_provider.dart';
 
 class CheckoutPage extends ConsumerStatefulWidget {
   const CheckoutPage({super.key});
@@ -62,27 +61,30 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
         .toList();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Checkout')),
+      appBar: AppBar(title: const Text('CHECKOUT')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
             // Order Summary
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.purple.shade50,
+                color: Theme.of(context).colorScheme.primaryContainer,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Order Summary',
-                    style: TextStyle(
-                      fontSize: 18,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline,
+                      decorationColor: Theme.of(context).colorScheme.onSurface,
+                      decorationThickness: 2,
+                      decorationStyle: TextDecorationStyle.dashed,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -94,40 +96,83 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                         children: [
                           Text(
                             '${item.productName.toUpperCase()} x${item.quantity}',
+                            style: Theme.of(context).textTheme.labelLarge!
+                                .copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
+                                ),
                           ),
                           Text(
                             '৳${(double.parse(item.salePrice) * item.quantity).toStringAsFixed(2)}',
+                            style: Theme.of(context).textTheme.labelLarge!
+                                .copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
+                                  fontWeight: FontWeight.bold,
+                                ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  const Divider(),
+                  Divider(color: Theme.of(context).colorScheme.primary),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Subtotal'),
-                      Text('৳${subtotal.toStringAsFixed(2)}'),
+                      Text(
+                        'Subtotal',
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                      Text(
+                        '৳${subtotal.toStringAsFixed(2)}',
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Shipping'),
-                      Text('৳${shippingCost.toStringAsFixed(2)}'),
+                      Text(
+                        'Shipping',
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                      Text(
+                        '৳${shippingCost.toStringAsFixed(2)}',
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
-                  const Divider(),
+                  Divider(color: Theme.of(context).colorScheme.primary),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Total',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.titleMedium!
+                            .copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                       Text(
                         '৳${total.toStringAsFixed(2)}',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.titleMedium!
+                            .copyWith(
+                              color: Theme.of(context).colorScheme.error,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                     ],
                   ),
@@ -142,16 +187,19 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Delivery To: ',
-                    style: TextStyle(
-                      fontSize: 18,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline,
                     ),
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                     maxLength: 40,
                     controller: nameController,
                     decoration: const InputDecoration(
@@ -163,6 +211,9 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                     maxLength: 11,
                     controller: phoneController,
                     decoration: const InputDecoration(
@@ -170,6 +221,7 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                       border: OutlineInputBorder(),
                     ),
                     keyboardType: TextInputType.phone,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validator: (value) =>
                         value!.isEmpty || value.trim().length < 11
                         ? 'Phone number is required and must be valid'
@@ -177,6 +229,9 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                     controller: addressController,
                     decoration: const InputDecoration(
                       labelText: 'Billing Address',
@@ -193,13 +248,20 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
 
             // Place Order Button
             ElevatedButton.icon(
-              icon: const Icon(Icons.check_circle, color: Colors.white),
-              label: const Text(
+              icon: Icon(
+                Icons.check_circle,
+                size: 25,
+                color: Theme.of(context).colorScheme.surface,
+              ),
+              label: Text(
                 'Place Order',
-                style: TextStyle(fontSize: 18, color: Colors.white),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.surface,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.purple,
+                backgroundColor: Theme.of(context).colorScheme.primary,
                 minimumSize: const Size.fromHeight(50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),

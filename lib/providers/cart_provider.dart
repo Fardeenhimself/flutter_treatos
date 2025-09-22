@@ -63,7 +63,7 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
         id: product.id,
         productName: product.productName,
         salePrice: product.salePrice,
-        productImage: product.productImage,
+        productImage: product.productImage!,
         quantity: 1,
       );
       await _db.insert('cart', newItem.toMap());

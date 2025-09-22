@@ -9,8 +9,8 @@ class CategoryList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categoryAsync = ref.watch(categoryProvider);
-    return categoryAsync.when(
+    final randomCategoryAsync = ref.watch(randomCategoryProvider);
+    return randomCategoryAsync.when(
       data: (categories) {
         return SizedBox(
           height: 100,
@@ -36,13 +36,15 @@ class CategoryList extends ConsumerWidget {
                   margin: EdgeInsets.symmetric(horizontal: 8),
                   child: Column(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
+                      CircleAvatar(
+                        backgroundColor: Theme.of(
+                          context,
+                        ).colorScheme.primaryContainer,
+                        radius: 30,
                         child: Image.network(
                           category.imageUrl,
-                          height: 70,
-                          width: 70,
-                          fit: BoxFit.cover,
+                          height: 40,
+                          fit: BoxFit.contain,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -51,7 +53,11 @@ class CategoryList extends ConsumerWidget {
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 12),
+                        style: Theme.of(context).textTheme.labelMedium!
+                            .copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontWeight: FontWeight.w600,
+                            ),
                       ),
                     ],
                   ),
@@ -62,9 +68,15 @@ class CategoryList extends ConsumerWidget {
         );
       },
       error: (err, stack) => Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(10.0),
         child: Center(
-          child: Text('Error: Could not load data. Please try again later.'),
+          child: Text(
+            'Something went wrong.\nCheck your Internet connection or try again later',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: Theme.of(context).colorScheme.error,
+            ),
+          ),
         ),
       ),
       loading: () => Center(child: CircularProgressIndicator()),

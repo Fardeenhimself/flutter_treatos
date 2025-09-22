@@ -42,23 +42,23 @@ class _MainTabState extends ConsumerState<MainTab> {
     final wishlistItems = ref.watch(wishlistProvider);
     return [
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        title: "Home",
-        activeColorPrimary: Colors.deepPurple,
-        inactiveColorPrimary: Colors.grey,
-        inactiveIcon: Icon(Icons.home_outlined),
+        icon: Icon(Icons.home_filled),
+        iconSize: 25,
+        activeColorPrimary: Theme.of(context).colorScheme.tertiary,
+        activeColorSecondary: Theme.of(context).colorScheme.primary,
+        inactiveColorPrimary: Theme.of(context).colorScheme.secondary,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.search),
-        title: "Search",
-        activeColorPrimary: Colors.deepPurple,
-        inactiveColorPrimary: Colors.grey,
-        inactiveIcon: Icon(Icons.search_outlined),
+        iconSize: 25,
+        activeColorPrimary: Theme.of(context).colorScheme.tertiary,
+        activeColorSecondary: Theme.of(context).colorScheme.primary,
+        inactiveColorPrimary: Theme.of(context).colorScheme.secondary,
       ),
       PersistentBottomNavBarItem(
-        title: "Wish List",
-        activeColorPrimary: Colors.deepPurple,
-        inactiveColorPrimary: Colors.grey,
+        activeColorPrimary: Theme.of(context).colorScheme.tertiary,
+        activeColorSecondary: Theme.of(context).colorScheme.primary,
+        inactiveColorPrimary: Theme.of(context).colorScheme.secondary,
         icon: Stack(
           clipBehavior: Clip.none,
           children: [
@@ -70,7 +70,7 @@ class _MainTabState extends ConsumerState<MainTab> {
                 child: Container(
                   padding: const EdgeInsets.all(2),
                   decoration: BoxDecoration(
-                    color: Colors.purple,
+                    color: Theme.of(context).colorScheme.primary,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   constraints: const BoxConstraints(
@@ -79,8 +79,8 @@ class _MainTabState extends ConsumerState<MainTab> {
                   ),
                   child: Text(
                     '${wishlistItems.length}',
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),
@@ -90,12 +90,12 @@ class _MainTabState extends ConsumerState<MainTab> {
               ),
           ],
         ),
-        inactiveIcon: Icon(Icons.favorite_outline),
+        iconSize: 25,
       ),
       PersistentBottomNavBarItem(
-        title: "Cart",
-        activeColorPrimary: Colors.deepPurple,
-        inactiveColorPrimary: Colors.grey,
+        activeColorPrimary: Theme.of(context).colorScheme.tertiary,
+        activeColorSecondary: Theme.of(context).colorScheme.primary,
+        inactiveColorPrimary: Theme.of(context).colorScheme.secondary,
         icon: Stack(
           clipBehavior: Clip.none,
           children: [
@@ -107,7 +107,7 @@ class _MainTabState extends ConsumerState<MainTab> {
                 child: Container(
                   padding: const EdgeInsets.all(2),
                   decoration: BoxDecoration(
-                    color: Colors.purple,
+                    color: Theme.of(context).colorScheme.primary,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   constraints: const BoxConstraints(
@@ -116,8 +116,8 @@ class _MainTabState extends ConsumerState<MainTab> {
                   ),
                   child: Text(
                     '$cartCount',
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
                     ),
@@ -127,7 +127,7 @@ class _MainTabState extends ConsumerState<MainTab> {
               ),
           ],
         ),
-        inactiveIcon: Icon(Icons.shopping_cart_outlined),
+        iconSize: 25,
       ),
     ];
   }
@@ -139,7 +139,7 @@ class _MainTabState extends ConsumerState<MainTab> {
       screens: _screens(),
       items: _navBarItems(),
       controller: _controller,
-
+      backgroundColor: Theme.of(context).colorScheme.surface,
     );
   }
 }

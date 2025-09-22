@@ -22,7 +22,7 @@ class BrandCarousel extends StatelessWidget {
           return ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Container(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
               padding: const EdgeInsets.all(8),
               child: Image.asset(imagePath, fit: BoxFit.contain, height: 60),
             ),

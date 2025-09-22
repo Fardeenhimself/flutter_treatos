@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:treatos_bd/models/category.dart';
 import 'package:treatos_bd/models/order.dart';
@@ -10,6 +9,17 @@ final categoryProvider = FutureProvider<List<Category>>((ref) async {
   return ApiService.fetchCategories();
 });
 
+// Random categories
+final randomCategoryProvider = FutureProvider<List<Category>>((ref) async {
+  return ApiService.fetchRandomCategories();
+});
+
+// For products by random category
+final randomProductsByCategoryProvider =
+    FutureProvider.family<List<Product>, String>((ref, categoryId) async {
+      return ApiService.fetchRandomCategoryProduct(categoryId);
+    });
+
 // For All products
 final allProductsProvider =
     StateNotifierProvider<AllProductsNotifier, List<Product>>(
@@ -18,43 +28,24 @@ final allProductsProvider =
 
 class AllProductsNotifier extends StateNotifier<List<Product>> {
   AllProductsNotifier() : super([]) {
-    _fetchNextPage();
+    _fetchAll();
   }
 
-  int _currentPage = 1;
-  final int _limit = 6;
   bool _isLoading = false;
-  bool _hasMore = true;
-
+  String? errorMessage;
   bool get isLoading => _isLoading;
-  bool get hasMore => _hasMore;
 
-  Future<void> _fetchNextPage() async {
-    if (_isLoading || !_hasMore) return;
-
+  Future<void> _fetchAll() async {
     _isLoading = true;
-
     try {
-      final newProducts = await ApiService.fetchAllProducts(
-        page: _currentPage,
-        limit: _limit,
-      );
-
-      if (newProducts.length < _limit) {
-        _hasMore = false;
-      }
-
-      state = [...state, ...newProducts];
-      _currentPage++;
-    } catch (e) {
-      Center(child: Text('Error fetching more products: $e'));
+      final products = await ApiService.fetchAllProducts();
+      state = products;
+      //print("Fetched ${products.length} products");
+    } catch (e, st) {
+      errorMessage = "Error fetching products: $e\n$st";
     } finally {
       _isLoading = false;
     }
-  }
-
-  void loadMore() {
-    _fetchNextPage();
   }
 }
 
@@ -144,7 +135,13 @@ class OrderTrackingNotifier extends StateNotifier<AsyncValue<List<Order>>> {
 
     try {
       final orders = await ApiService.trackOrder(phone);
-      state = AsyncValue.data(orders);
+
+      if (orders.isEmpty) {
+        // Explicitly return empty list instead of throwing
+        state = const AsyncValue.data([]);
+      } else {
+        state = AsyncValue.data(orders);
+      }
     } catch (error, stackTrace) {
       state = AsyncValue.error(error, stackTrace);
     }

@@ -49,7 +49,7 @@ class WishlistNotifier extends StateNotifier<List<WishlistItem>> {
       final item = WishlistItem(
         id: product.id,
         productName: product.productName,
-        productImage: product.productImage,
+        productImage: product.productImage!,
         salePrice: product.salePrice,
       );
       await _db.insert('wishlist', item.toMap());

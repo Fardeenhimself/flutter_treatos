@@ -15,7 +15,7 @@ class WishlistCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         boxShadow: const [
           BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 3)),
@@ -48,9 +48,9 @@ class WishlistCard extends StatelessWidget {
               children: [
                 Text(
                   item.productName,
-                  style: const TextStyle(
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -58,7 +58,10 @@ class WishlistCard extends StatelessWidget {
                 const SizedBox(height: 6),
                 Text(
                   '৳ ${item.salePrice}',
-                  style: const TextStyle(fontSize: 15, color: Colors.purple),
+                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ],
             ),
@@ -66,7 +69,15 @@ class WishlistCard extends StatelessWidget {
 
           // Remove Button
           IconButton(
-            icon: const Icon(Icons.delete_outline, color: Colors.red),
+            icon: CircleAvatar(
+              radius: 25,
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              child: const Icon(
+                Icons.delete_outline,
+                color: Colors.red,
+                size: 30,
+              ),
+            ),
             onPressed: () {
               ref.read(wishlistProvider.notifier).removeFromWishlist(item.id);
             },

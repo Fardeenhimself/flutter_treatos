@@ -15,11 +15,8 @@ class WishlistScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'W I S H  L I S T',
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
+          'WISH LIST',
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
         actions: [
           IconButton(
@@ -31,16 +28,24 @@ class WishlistScreen extends ConsumerWidget {
               showEmptyWishlistConfirmationDialog(context, ref);
             },
             icon: CircleAvatar(
-                radius: 25,
-                backgroundColor: Colors.grey.shade200,
-                child: Icon(Icons.delete, size: 30, color: Colors.red,)),
+              radius: 25,
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              child: Icon(Icons.delete, size: 30, color: Colors.red),
+            ),
           ),
         ],
       ),
       drawer: MainDrawer(),
 
       body: wishlistItems.isEmpty
-          ? const Center(child: Text('Your wishlist is empty'))
+          ? Center(
+              child: Text(
+                'Your wishlist is empty',
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+            )
           : ListView.builder(
               itemCount: wishlistItems.length,
               padding: const EdgeInsets.all(12),

@@ -11,45 +11,34 @@ class AllProductsScreen extends ConsumerStatefulWidget {
 }
 
 class _AllProductsScreenState extends ConsumerState<AllProductsScreen> {
-  final ScrollController _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent - 300) {
-        ref.read(allProductsProvider.notifier).loadMore();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final products = ref.watch(allProductsProvider);
     final notifier = ref.read(allProductsProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('All Products')),
-      body: products.isEmpty
-          ? const Padding(
-              padding: EdgeInsets.all(8.0),
+      appBar: AppBar(title: const Text('ALL PRODUCTS')),
+      body: notifier.isLoading
+          // Show loader while fetching
+          ? const Center(child: CircularProgressIndicator())
+          // else show products
+          : notifier.errorMessage != null
+          ? Padding(
+              padding: const EdgeInsets.all(10.0),
               child: Center(
                 child: Text(
-                  'Error: Could not load data. Please try again later.',
+                  'Something went wrong.\nCheck your Internet connection or try again later',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
                 ),
               ),
             )
-          : GridView.builder(
-              controller: _scrollController,
+          : products.isNotEmpty
+          ? GridView.builder(
               padding: const EdgeInsets.all(12),
-              itemCount: products.length + (notifier.hasMore ? 1 : 0),
+              itemCount: products.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 12,
@@ -64,9 +53,21 @@ class _AllProductsScreenState extends ConsumerState<AllProductsScreen> {
                 final product = products[index];
                 return ProductGridTile(
                   product: product,
-                  image: product.productImage,
+                  image: product.productImage!,
                 );
               },
+            )
+          : Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Center(
+                child: Text(
+                  'No produts available',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+                ),
+              ),
             ),
     );
   }
