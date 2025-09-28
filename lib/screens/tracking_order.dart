@@ -150,7 +150,11 @@ class _TrackOrderScreenState extends ConsumerState<TrackOrderScreen> {
                                   ),
                                 ],
                               ),
-                              const Divider(),
+                              Divider(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onPrimaryContainer,
+                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,

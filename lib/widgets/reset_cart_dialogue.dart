@@ -15,7 +15,7 @@ void showEmptyCartConfirmationDialog(BuildContext context, WidgetRef ref) {
           onPressed: () => Navigator.of(ctx).pop(),
           child: const Text('Cancel'),
         ),
-        ElevatedButton(
+        FilledButton(
           child: const Text('Clear Cart'),
           onPressed: () {
             ref.read(cartProvider.notifier).clearCart();

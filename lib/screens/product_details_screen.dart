@@ -94,8 +94,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                         children: [
                           Text(
                             product.discountPrice == null
-                                ? '৳${product.salePrice}'
-                                : '৳${product.discountPrice}',
+                                ? '৳ ${product.salePrice}'
+                                : '৳ ${product.discountPrice}',
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -106,7 +106,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                           Text(
                             product.discountPrice == null
                                 ? ''
-                                : '৳${product.salePrice}',
+                                : '৳ ${product.salePrice}',
                             style: TextStyle(
                               fontSize: 16,
                               decoration: TextDecoration.lineThrough,

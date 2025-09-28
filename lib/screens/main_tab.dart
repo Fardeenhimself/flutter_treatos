@@ -42,7 +42,8 @@ class _MainTabState extends ConsumerState<MainTab> {
     final wishlistItems = ref.watch(wishlistProvider);
     return [
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.home_filled),
+        icon: Icon(Icons.home),
+        inactiveIcon: Icon(Icons.home_outlined),
         iconSize: 25,
         activeColorPrimary: Theme.of(context).colorScheme.tertiary,
         activeColorSecondary: Theme.of(context).colorScheme.primary,
@@ -50,6 +51,7 @@ class _MainTabState extends ConsumerState<MainTab> {
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.search),
+        inactiveIcon: Icon(Icons.search_outlined),
         iconSize: 25,
         activeColorPrimary: Theme.of(context).colorScheme.tertiary,
         activeColorSecondary: Theme.of(context).colorScheme.primary,
@@ -90,6 +92,37 @@ class _MainTabState extends ConsumerState<MainTab> {
               ),
           ],
         ),
+        inactiveIcon: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            const Icon(Icons.favorite_border_outlined),
+            if (wishlistItems.isNotEmpty)
+              Positioned(
+                top: -4,
+                right: -6,
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 16,
+                    minHeight: 16,
+                  ),
+                  child: Text(
+                    '${wishlistItems.length}',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+          ],
+        ),
         iconSize: 25,
       ),
       PersistentBottomNavBarItem(
@@ -100,6 +133,37 @@ class _MainTabState extends ConsumerState<MainTab> {
           clipBehavior: Clip.none,
           children: [
             const Icon(Icons.shopping_cart),
+            if (cartCount > 0)
+              Positioned(
+                top: -4,
+                right: -6,
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 16,
+                    minHeight: 16,
+                  ),
+                  child: Text(
+                    '$cartCount',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+          ],
+        ),
+        inactiveIcon: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            const Icon(Icons.shopping_cart_outlined),
             if (cartCount > 0)
               Positioned(
                 top: -4,

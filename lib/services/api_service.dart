@@ -54,7 +54,9 @@ class ApiService {
     final res = await http.get(Uri.parse(ApiRoutes.allProductsApi));
 
     if (res.statusCode == 200) {
-      final List<dynamic> jsonList = jsonDecode(res.body);
+      final Map<String, dynamic> allProductData = jsonDecode(res.body);
+      final List<dynamic> jsonList = allProductData['products'];
+      //print(allProductData);
       return jsonList.map((item) => Product.fromJson(item)).toList();
     } else {
       throw Exception('Failed to load all products');
